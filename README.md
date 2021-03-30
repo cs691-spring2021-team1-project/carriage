@@ -5,10 +5,10 @@
 </BR>![alt text](https://i.ibb.co/3RHfrzJ/carriage-homepage-functionality-demo.gif) ![alt text](https://i.ibb.co/kM2qNJd/carriage-all-screens-gif.gif)
 
 View our Wiki for documents related to Carriage: 
-1. [Project Planning](https://github.com/cs691-spring2021-team1-project/carriage/wiki/2.-Project-Planning)
-2. [Requirements Analysis](https://github.com/cs691-spring2021-team1-project/carriage/wiki/3.-High-Level-Design)
-3. [High-Level Design](https://github.com/cs691-spring2021-team1-project/carriage/wiki/4.-Requirements-Analysis)
-4. [Implementation](https://github.com/cs691-spring2021-team1-project/carriage/wiki/5.-Implementation)
-5. [Testing](https://github.com/cs691-spring2021-team1-project/carriage/wiki/6.-Testing)
+1. [Project Planning](https://github.com/cs691-spring2021-team1-project/carriage/wiki/1.-Project-Planning)
+2. [Requirements Analysis](https://github.com/cs691-spring2021-team1-project/carriage/wiki/2.-High-Level-Design)
+3. [High-Level Design](https://github.com/cs691-spring2021-team1-project/carriage/wiki/3.-Requirements-Analysis)
+4. [Implementation](https://github.com/cs691-spring2021-team1-project/carriage/wiki/4.-Implementation)
+5. [Testing](https://github.com/cs691-spring2021-team1-project/carriage/wiki/5.-Testing)
 6. [Airbnb React JSX Style Guide](https://github.com/cs691-spring2021-team1-project/carriage/wiki/6.-Airbnb-React-JSX-Style-Guide)
 
