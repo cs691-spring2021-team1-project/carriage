@@ -12,5 +12,9 @@
 </BR>UML diagrams (use case, activity), Data-Flow Diagram: https://docs.google.com/presentation/d/1ENHY9T9IuHIJGcC_wcIZSZMMM4usABST/edit
 </BR>Functional requirements (user stories): https://docs.google.com/presentation/d/1ENHY9T9IuHIJGcC_wcIZSZMMM4usABST/edit
 </BR>Home Page Demo:
-
 </BR>![alt text](https://i.ibb.co/3RHfrzJ/carriage-homepage-functionality-demo.gif) ![alt text](https://i.ibb.co/kM2qNJd/carriage-all-screens-gif.gif)
+
+</BR> ER DIAGRAMS: https://docs.google.com/presentation/d/1hWgNL3ARxPp3x2ha4TwjpkfA40bIOsBI/edit#slide=id.p2
+</Br> TABLE SPECS: https://docs.google.com/spreadsheets/d/1Owo54J5jan9J4BgcfN7PO8N0Jpyfi_fG/edit?rtpof=true#gid=1188612520
+</Br> DATA FLOW: https://docs.google.com/presentation/d/13ND2brWF-IA6FP2LX5z1cFtPNKvS-ywy/edit?usp=drive_web&ouid=106311673449545359094&rtpof=true
+</br> ARCHITECTURE: https://docs.google.com/presentation/d/1GYFAwX0j8UiSPWCfYVDI8Ok3a-g9Ncl_/edit#slide=id.gcaccc477f7_0_135
