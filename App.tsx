@@ -67,23 +67,29 @@ const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState)
 const authContext = React.useMemo(()=>({
       signIn: async (username:any, password:any)=>{
         // should be api auth
-        let userToken = null;
         
-        if(username == 'user' && password== 'pass'){
-               userToken = 'token';
+        let userToken = null;
+        if(username == 'user' && password == 'pass'){
+               userToken = 'token'
                try {
-                 await AsyncStorage.setItem(
-                   'userToken', userToken
-                 )
+               await AsyncStorage.setItem(
+                   'userToken', userToken)
+                 console.log("sign-in usertoken:",userToken)
                }catch(e){
                  console.log(e)
                }
         } 
         dispatch({type: 'LOGIN', id: username, token: userToken})
       },
-      signOut:()=>{
-        dispatch({type: 'LOGOUT'})
-
+      signOut: async() => {
+        // setUserToken(null);
+        // setIsLoading(false);
+        try {
+          await AsyncStorage.removeItem('userToken');
+        } catch(e) {
+          console.log(e);
+        }
+        dispatch({ type: 'LOGOUT' });
       },
       signUp:()=>{
         // should be input auth 
@@ -92,20 +98,18 @@ const authContext = React.useMemo(()=>({
   }), [])
 
   React.useEffect(() => {
-  setTimeout(async()=>{
+    setTimeout(async() => {
       // setIsLoading(false);
-    let userToken = null;
-
-    try {
-      userToken = await AsyncStorage.getItem(
-        'userToken'
-      )
-    }catch(e){
-      console.log(e)
-    }
-    dispatch({type: 'RETRIEVE_TOKEN', token: userToken})
-
-  }, 1000)
+      let userToken;
+      userToken = null;
+      try {
+        userToken = await AsyncStorage.getItem('userToken');
+      } catch(e) {
+        console.log(e);
+      }
+      console.log('bootup user token: ', userToken);
+      dispatch({ type: 'RETRIEVE_TOKEN', token: userToken });
+    }, 1000);
   }, [])
 
 
