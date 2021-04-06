@@ -5,13 +5,11 @@ import {Avatar, Title, Caption, Paragraph, Drawer, TouchableRipple, Switch} from
 
 import { Ionicons as Icon , MaterialCommunityIcons} from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AuthContext } from '../components/context';
 
 
 const DrawerContent = (props: any) => {
-const [isDarkTheme, setIsDarkTheme] = React.useState(false) 
-const toggleTheme = () =>{
-setIsDarkTheme(!isDarkTheme)
-}
+const {signOut} = React.useContext(AuthContext)
     return (
   
  <View>
@@ -31,11 +29,11 @@ setIsDarkTheme(!isDarkTheme)
                    <Drawer.Section style={styles.drawerSection}>
                
               
-                   <TouchableOpacity   onPress={()=> props.navigation.navigate('Home')}>
+                   <TouchableOpacity   onPress={()=> props.navigation.navigate('OrderHistory')}>
                        <View style={styles.drawerItem} >
                        <Text style={styles.drawerText} >View Order History</Text>
                          <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                
+              
                   
                           </View>          
                        </TouchableOpacity>
@@ -92,9 +90,9 @@ setIsDarkTheme(!isDarkTheme)
                 </View>
           </DrawerContentScrollView>
           <Drawer.Section style={styles.bottomDrawerSection}>
-          <TouchableOpacity    onPress={()=> props.navigation.navigate('Home')}>
+          <TouchableOpacity    onPress={()=> signOut()}>
                        <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text style={{fontSize: 20, fontWeight: 'bold'}}>More</Text>
+                       <Text style={{fontSize: 20, fontWeight: 'bold'}}>Sign Out</Text>
                          <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
                 
                   
