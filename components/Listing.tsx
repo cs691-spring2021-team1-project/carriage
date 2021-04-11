@@ -3,25 +3,25 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import VendorListing from './VendorListing'
 
 const Listing = (props:any) => {
-    const {title} = props;
+    const {title, shape} = props;
     console.log(title)
     return (
-        <View  style={{flex:1, padding: 10}}>
+        <View  >
         <Text style={{fontSize:24, fontWeight: '700',margin: 5}}>
            {title}
         </Text>
        
-        <View  style={{height: 150}}>
+        <View  style={{height: 150, elevation:5}}>
            <ScrollView  
            horizontal={true} 
            showsHorizontalScrollIndicator={false}
            showsVerticalScrollIndicator={false}
            style={{backgroundColor:'#f7f7f7', padding: 4}}>
           
-          <VendorListing/>
-          <VendorListing/>
-          <VendorListing/>
-          <VendorListing/>
+          <VendorListing shape={shape}/>
+          <VendorListing shape={shape}/>
+          <VendorListing shape={shape}/>
+          <VendorListing shape={shape}/>
    
    
          </ScrollView>
