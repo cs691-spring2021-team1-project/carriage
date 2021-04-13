@@ -18,6 +18,13 @@ import SettingsScreen from './SettingsScreen';
 import CategoriesScreen from './CategoriesScreen';
 import DiscountsScreen from './DiscountsScreen';
 import CustomHeader from '../components/CustomHeader';
+import ShoppingCartScreen from './ShoppingCartScreen';
+import ShoppingCartScreenStack from '../stacks/ShoppingCartScreenStack';
+import ItemDetailsScreen from './ItemDetailsScreen';
+import { Provider } from "react-redux";
+import store from '../store';
+import CartScreen from './CartScreen';
+
 
 const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -27,7 +34,7 @@ const SearchStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
 
 
-const HomeScreenStack = ({navigation}:any) =>{
+const HomeScreenStack = ({navigation, route}:any) =>{
   let [fontsLoaded] = useFonts({
     'SF Pro Display Bold': require('../assets/fonts/SFProDisplay-Bold.ttf'),
     'SF Pro Display Regular': require('../assets/fonts/SFProDisplay-Regular.ttf'),
@@ -57,6 +64,35 @@ const HomeScreenStack = ({navigation}:any) =>{
       
       
       }} />
+
+      <HomeStack.Screen 
+        name="Item_Categories" 
+        component={ShoppingCartScreen}  
+        options={{
+        header: ()=>(<CustomHeader title="Item Categories" navigation={navigation} route={route}/>),
+      
+      
+      }} />
+
+       
+         <HomeStack.Screen 
+        name="Item_Details" 
+        component={ItemDetailsScreen}  
+        options={{
+        header: ()=>(<CustomHeader title="Items" navigation={navigation} route={route}/>),
+      
+      
+      }} />
+           <HomeStack.Screen 
+        name="CartScreen" 
+        component={CartScreen}  
+        options={{
+        header: ()=>(<CustomHeader title="Cart" navigation={navigation} route={route}/>),
+      
+      
+      }} />
+    
+    
     
     </HomeStack.Navigator>
    

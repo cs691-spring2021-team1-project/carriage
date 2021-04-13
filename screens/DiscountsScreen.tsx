@@ -4,9 +4,14 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 
 const DiscountsScreen = ({navigation}:any) => {
     return (
-       
-   <ImageBackground style={{height: "100%"}} source={require("../assets/MasterBG.png")}>
-            <ImageBackground style={{height: "100%", margin: 30, 
+       <View style={{flex:1}}>
+  <ImageBackground style={{height: "100%"}} source={require("../assets/MasterBG.png")}>
+        
+             
+          
+         
+   <View>
+   <ImageBackground style={{height: "100%", margin: 30, 
                 elevation: 5, shadowColor: '#000',
                 shadowOffset: { width: 0, height: 1 },
                 shadowOpacity: 0.8,
@@ -14,13 +19,11 @@ const DiscountsScreen = ({navigation}:any) => {
             }} source={require("../assets/Rectangle50.png")}
             >
             
-             
-          
-         
-           
-<ScrollView
+   <ScrollView
  showsVerticalScrollIndicator={true}
- showsHorizontalScrollIndicator={false}>
+ showsHorizontalScrollIndicator={false}
+ 
+ >
      <TouchableOpacity>
 
      <ImageBackground style={{height: 150, width:327, marginVertical: 10}} source={require("../assets/Produce.png")}>
@@ -58,14 +61,19 @@ const DiscountsScreen = ({navigation}:any) => {
 </ScrollView>
         
          
+</ImageBackground>
+       </View>        
+
         
              
 
-</ImageBackground>
+
             </ImageBackground>
             
            
     
+ 
+       </View>
        
     )
 }

@@ -1,9 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import VendorListing from './VendorListing'
 
 const Listing = (props:any) => {
-    const {title, shape} = props;
+    const {title, shape, navigation} = props;
     console.log(title)
     return (
         <View  >
@@ -17,13 +18,17 @@ const Listing = (props:any) => {
            showsHorizontalScrollIndicator={false}
            showsVerticalScrollIndicator={false}
            style={{backgroundColor:'#f7f7f7', padding: 4}}>
-          
-          <VendorListing shape={shape}/>
+
+          {/* for each vendor pass a vendor*/}
+          <TouchableOpacity onPress={()=>navigation.navigate("Item_Categories")}>
+          <VendorListing shape={shape} />
+          </TouchableOpacity>
+
           <VendorListing shape={shape}/>
           <VendorListing shape={shape}/>
           <VendorListing shape={shape}/>
    
-   
+ 
          </ScrollView>
          </View>
         

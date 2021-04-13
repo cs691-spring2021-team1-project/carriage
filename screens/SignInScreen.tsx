@@ -65,8 +65,8 @@ const SignUpScreen = ({navigation}:any) => {
                    data.check_circle ? (    <Animatable.View
                    animation="bounceIn"
                    duration={2000}>
-<Feather name="check-circle" color="green" size={20}/>
-           
+            <Feather name="check-circle" color="green" size={20}/>
+                    
 
                    </Animatable.View>           ):null
                }
@@ -87,9 +87,9 @@ const SignUpScreen = ({navigation}:any) => {
              
                </TouchableOpacity>
        
-           </View>
+            </View>
          
-<View style={styles.buttons}>
+               <View style={styles.buttons}>
 
 
                <TouchableOpacity onPress={()=> navigation.navigate("SignUpScreen")}>
@@ -100,9 +100,9 @@ const SignUpScreen = ({navigation}:any) => {
                   
                  <LinearGradient colors={['#e9e9e9','#e9e9e9']}
                  style={[styles.signIn, {
-                    borderRadius: 0,
+                    borderRadius: 10,
                     borderColor: 'black',
-                    borderWidth: 1,
+                    borderWidth: .5,
                     paddingHorizontal: 10
                 }]}>
                      <Text style={[styles.textSign, {color:'black'}]}>Sign Up!</Text>
@@ -114,13 +114,18 @@ const SignUpScreen = ({navigation}:any) => {
 
 
                
-<TouchableOpacity onPress={()=> signIn(data.email, data.password)}>
-               <View style={styles.button}>
-                 
+                <TouchableOpacity onPress={()=> signIn(data.email, data.password)}>
+                <View style={styles.button}>
+                    
 
                   
                  <LinearGradient colors={['#365E7D','#365E7D']}
-                 style={styles.signIn}>
+                 style={[styles.signIn, { 
+                    
+                    borderRadius: 10,
+                    borderColor: 'black',
+                    borderWidth: .5,
+                    paddingHorizontal: 10}]}>
                      <Text style={[styles.textSign,{color: '#e9e9e9'}]}>Log In!</Text>
 
                  </LinearGradient>
@@ -130,13 +135,13 @@ const SignUpScreen = ({navigation}:any) => {
 
 </View>
         
-<View style={styles.trouble}>
+            <View style={styles.trouble}>
 
-<TouchableOpacity>
+            <TouchableOpacity>
 
-    <Text style={styles.troubleText}>Trouble Logging In? Click Here</Text>
-</TouchableOpacity>
-</View>
+                <Text style={styles.troubleText}>Trouble Logging In? Click Here</Text>
+            </TouchableOpacity>
+            </View>
 
 
             </Animatable.View>
