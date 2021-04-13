@@ -1,9 +1,10 @@
 import React from 'react'
-import { Dimensions, StyleSheet, Text,StatusBar, View , Platform, Image, TouchableOpacity, TextInput} from 'react-native'
+import { Dimensions, StyleSheet, Text,StatusBar, View , Platform, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
 import { Ionicons as Icon , MaterialCommunityIcons as MaterialIcons, Feather, FontAwesome} from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import { AuthContext } from '../components/context';
+import { Const } from '../constants';
 
 
 const SignUpScreen = ({navigation}:any) => {
@@ -16,6 +17,70 @@ const SignUpScreen = ({navigation}:any) => {
      })
 
      const {signIn} = React.useContext(AuthContext)
+
+     const errorAlert = (title:string, msg:string) => {
+        return Alert.alert(
+           title,
+           msg,
+               [
+                   {
+                   text: "OK",
+                   onPress: () => console.log("OK Pressed"),
+                   style: "cancel"
+                   },
+               ]
+        );
+     }
+
+     const emailHandler = (email:string) => {
+        if (!email) {
+            errorAlert("Invalid Input" , "Please fill all mandatory fields")
+            console.log("email");
+            console.log(email)
+            return false;
+        }
+
+        else if (email.length > 320) {
+           errorAlert("Invalid Input" , "Email exceeds 320 size limit")
+           return false;
+        }
+
+        else if (!email.includes('@')) {
+           errorAlert("Invalid Input" , "Not a valid email address, missing @")
+           return false;
+        }
+        
+        else if (!email.match(Const.mailformat)) {
+            errorAlert("Invalid Input", "Not a valid Email Please Check Again")
+            return false;
+        }
+
+        return true;
+     }
+
+     const passwordHandler = (password:string) => {
+        if (!password) {
+            errorAlert("Invalid Input" , "Please fill all mandatory fields")
+            return false;
+        }
+
+        else if (password.length < 12) {
+           errorAlert("Invalid Input" , "Please provide a longer password")
+           return false;
+        }
+
+        else if (Const.commonPasswords.includes(password)) {
+           errorAlert("Invalid Input" , "Please Choose a Stronger Password")
+           return false;
+        }
+        return true;
+     }
+
+     const signInHandler = (email:string, password:string) => {
+        if (emailHandler(email) && passwordHandler(password)) {
+            signIn(email, password)
+        }
+     }
 
      const textInputChange = (val:string)=>{
         if(val.length != 0){
@@ -114,7 +179,7 @@ const SignUpScreen = ({navigation}:any) => {
 
 
                
-<TouchableOpacity onPress={()=> signIn(data.email, data.password)}>
+<TouchableOpacity onPress={()=> signInHandler(data.email, data.password)}>
                <View style={styles.button}>
                  
 
