@@ -1,23 +1,145 @@
 import React from 'react'
-import { Dimensions, StyleSheet, Text,StatusBar, View , Platform, Image, TouchableOpacity, TextInput} from 'react-native'
+import { Dimensions, StyleSheet, Text,StatusBar, View , Platform, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
 import { Ionicons as Icon , MaterialCommunityIcons as MaterialIcons, Feather, FontAwesome} from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import { AuthContext } from '../components/context';
+import {Const} from '../constants'
+import { specialCharacters } from '../constants/constants';
 
 
 const SignUpScreen = ({navigation}:any) => {
     <StatusBar backgroundColor="#32965D" barStyle="light-content"/>
      const [data, setData] = React.useState({
+         firstName: '',
+         lastName: '',
          email: '',
          password:'',
          secureTextEntry: true,
  
      })
 
-     const {signIn} = React.useContext(AuthContext)
+     const {signUp} = React.useContext(AuthContext)
 
-     const textInputChange = (val:string)=>{
+     const errorAlert = (title:string, msg:string) => {
+         return Alert.alert(
+            title,
+            msg,
+                [
+                    {
+                    text: "OK",
+                    onPress: () => console.log("OK Pressed"),
+                    style: "cancel"
+                    },
+                ]
+        );
+     }
+
+     const nameHandler = (name:string) => {
+         if (!name) {
+            errorAlert("Invalid Input" , "Please fill all mandatory fields");
+            console.log("name");
+            console.log(name);
+            return false;
+         }
+         if (name.length > 20) {
+            errorAlert("Invalid Input" , "Text limit exceeded");
+            return false;
+         }
+         if (name.match(specialCharacters) || name.includes(" ")) {
+            errorAlert("Invalid Input" , "Special characters not allowed");
+            return false;
+         }
+
+         return true;
+     }
+
+     const emailHandler = (email:string) => {
+        if (!email) {
+            errorAlert("Invalid Input" , "Please fill all mandatory fields")
+            console.log("email");
+            console.log(email)
+            return false;
+        }
+
+        else if (email.length > 320) {
+           errorAlert("Invalid Input" , "Email exceeds 320 size limit")
+           return false;
+        }
+
+        else if (!email.includes('@')) {
+           errorAlert("Invalid Input" , "Not a valid email address, missing @")
+           return false;
+        }
+        
+        else if (!email.match(Const.mailformat)) {
+            errorAlert("Invalid Input", "Not a valid Email Please Check Again")
+            return false;
+        }
+
+        return true;
+     }
+
+     const passwordHandler = (password:string) => {
+        if (!password) {
+            errorAlert("Invalid Input" , "Please fill all mandatory fields")
+            return false;
+        }
+
+        else if (password.length < 12) {
+           errorAlert("Invalid Input" , "Please provide a longer password")
+           return false;
+        }
+
+        else if (Const.commonPasswords.includes(password)) {
+           errorAlert("Invalid Input" , "Please Choose a Stronger Password")
+           return false;
+        }
+        return true;
+     }
+
+     const signUpHandler = (firstName:string, LastName:string, email:string, password:string) => {
+        if (!nameHandler(firstName) || !nameHandler(LastName)) {
+            return;
+        }
+        if (emailHandler(email) && passwordHandler(password)) {
+            signUp(email, password)
+        }
+     }
+
+     const firstNameInputChange = (val:string)=>{
+        if(val.length != 0){
+            setData({
+                ...data,
+                firstName: val,
+             
+            })
+        } else {
+            setData({
+                ...data,
+                firstName: val,
+             
+            })
+        }
+     }
+
+     const lastNameInputChange = (val:string)=>{
+        if(val.length != 0){
+            setData({
+                ...data,
+                lastName: val,
+             
+            })
+        } else {
+            setData({
+                ...data,
+                lastName: val,
+             
+            })
+        }
+     }
+
+     const emailInputChange = (val:string)=>{
         if(val.length != 0){
             setData({
                 ...data,
@@ -32,6 +154,7 @@ const SignUpScreen = ({navigation}:any) => {
             })
         }
      }
+
 
      const passwordInutChange = (val:string)=>{
                 setData({
@@ -58,7 +181,7 @@ const SignUpScreen = ({navigation}:any) => {
             <Text style={styles.text_footer}> First Name</Text>
            <View style={styles.action}>
                  <TextInput 
-                 onChangeText={(val:string)=> textInputChange(val)} 
+                 onChangeText={(val:string)=> firstNameInputChange(val)} 
                style={styles.textInput}/>
             
                </View>
@@ -66,7 +189,7 @@ const SignUpScreen = ({navigation}:any) => {
                <Text style={styles.text_footer}> Last Name</Text>
            <View style={styles.action}>
                  <TextInput 
-                 onChangeText={(val:string)=> textInputChange(val)} 
+                 onChangeText={(val:string)=> lastNameInputChange(val)} 
                style={styles.textInput}/>
               
                </View>
@@ -74,7 +197,7 @@ const SignUpScreen = ({navigation}:any) => {
                <Text style={styles.text_footer}> Email</Text>
            <View style={styles.action}>
                  <TextInput 
-                 onChangeText={(val:string)=> textInputChange(val)} 
+                 onChangeText={(val:string)=> emailInputChange(val)} 
                style={styles.textInput}/>
               
                </View>
@@ -99,14 +222,14 @@ const SignUpScreen = ({navigation}:any) => {
             <View style={styles.buttons}>
 
 
-        <TouchableOpacity onPress={()=> signIn(data.email, data.password)}>
+        <TouchableOpacity onPress={()=> signUpHandler(data.firstName, data.lastName, data.email, data.password)}>
         <View style={[styles.button, 
         ]}>
         
 
         
         <LinearGradient colors={['#e9e9e9','#e9e9e9']}
-        style={[styles.signIn, {
+        style={[styles.signUp, {
             borderRadius: 10,
             borderColor: 'black',
             borderWidth: 1, 
@@ -210,7 +333,7 @@ const styles = StyleSheet.create({
         width: 130,
         height: 39,
     },
-    signIn:{
+    signUp:{
         width: 130,
         height: 39,
         justifyContent: 'center',
