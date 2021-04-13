@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 
-const VendorListing = ({shape}:any) => {
+const VendorListing = ({shape, navigation}:any) => {
     const borderRadius = shape == "square" ? 0 : 100
     return (
         <View style={{height: 150, width: 150}}>

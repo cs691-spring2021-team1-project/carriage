@@ -6,8 +6,9 @@ import Listing from '../components/Listing'
 
 export default function HomeScreen({navigation}:any) {
     return (
-        <View>
-      
+
+        <View style={{flex:1}}>
+          {/*how we fixed the scroll cap issue ^^^ */}
          <View style={{height: 70, backgroundColor: "#32965D", flexDirection: 'row'}}>
          <TouchableOpacity style={{marginHorizontal:10}} >
              <Image source={require('../assets/FavoriteVendorButton.png')}
@@ -62,21 +63,47 @@ export default function HomeScreen({navigation}:any) {
        
      
        
-        
-     <ScrollView style={{backgroundColor: '#e5e5e5'}}>
-      <ImageBackground style={{width: "100%"}} source={require('../assets/MasterBG.png')}>
 
-      <Listing title="Popular"/>
-     <Listing title="Vegan Friendly"/>
-     <Listing title="Bodega"/>
+  <ScrollView  
+         horizontal={false} 
+         showsHorizontalScrollIndicator={false}
+         showsVerticalScrollIndicator={false}
+         
+         >
+           
+           <ImageBackground style={{height: "100%",
+         
+        }} source={require('../assets/MasterBG.png')}>
+            
+            {/* for each listing pass a listing*/}
+            <Listing title="Popular" navigation={navigation}/>
+            <Listing title="Vegan"/>
+            <Listing title="Bodega"/>
+            <Listing title="Smoothies"/>
+            <Listing title="Fro-yo"/>  
+            <Listing title="Farmers Market" />
+
+
+
+ 
     
-      </ImageBackground>
       
    
+
+     </ImageBackground>
      
+ 
+
+      
           </ScrollView>
 
-        </View>
+      </View> 
+
+
+       
+
+    
+
 
 
      
@@ -89,8 +116,12 @@ export default function HomeScreen({navigation}:any) {
 const styles = StyleSheet.create({
 
     container:{
-        flex:1,
-        alignItems:'center',
-        justifyContent: 'center'
+
+    },
+    scrollContainer:{
+        flex:1
+    },
+    scrollview:{
+        flex:1
     }
 })

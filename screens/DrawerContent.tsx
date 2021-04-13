@@ -57,7 +57,7 @@ const {signOut} = React.useContext(AuthContext)
                        </TouchableOpacity>
         
 
-                       <TouchableOpacity    onPress={()=> props.navigation.navigate('Home')}>
+                       <TouchableOpacity    onPress={()=> props.navigation.navigate('Settings')}>
                        <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
                        <Text style={styles.drawerText}>App Settings</Text>
                          <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
