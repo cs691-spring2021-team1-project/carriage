@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom';
 import { StyleSheet, Text, View , TouchableOpacity} from 'react-native'
+import { Ionicons as Icon } from '@expo/vector-icons';
 
 const ItemsOrdered = ({items, onPress}:any) => {
        
@@ -8,14 +9,16 @@ const ItemsOrdered = ({items, onPress}:any) => {
    
           (
         
-            <TouchableOpacity key={i} onPress={()=> { onPress(item)}}>
-                <View style={{flexDirection: 'row', alignItems:'center', justifyContent:'space-between'}}>
-                <Text>{item['name']} </Text>
+           
+                <View  key={i} style={{flexDirection: 'row', alignItems:'center', justifyContent:'space-between'}}>
+                <Text>1x {item['name']} </Text>
                 <Text>{item['price']}</Text>
-    
+                <TouchableOpacity  onPress={()=> { onPress(item)}}>
+     <Icon name="trash-bin-outline" size={20}></Icon>
+     </TouchableOpacity>
                 </View>
           
-            </TouchableOpacity>
+        
     
             )
        

@@ -85,11 +85,14 @@ export default Items
 const styles = StyleSheet.create({
 
   item: {
-  
+    borderColor: '#000',
+    borderWidth: 1,
+    padding: 10,
+    paddingHorizontal: 20,
     margin: 3
   },
   itemText:{
-      color: 'white', 
+      color: '#f7f7f7', 
       fontSize: 36, 
       fontWeight:'bold', 
       textAlign:'center'
@@ -98,19 +101,27 @@ const styles = StyleSheet.create({
       flex:1, 
       alignItems:'center', 
       justifyContent:'center',
+ 
   
   },
   button:{
-  
-   alignSelf: 'center'
+    width: '100%',
+   alignSelf: 'center',
+   justifyContent:'center',
+   alignItems:'center',
+   margin: 5
 },
 gradient:{
-  
+    height: 45,
+    width: '100%',
+    alignContent:'center',
+    justifyContent:'center'
   
 
 },
 btnText:{
     fontSize: 20,
-    fontWeight:'bold'
+    fontWeight:'bold',
+    textAlign:'center'
 },
 })
