@@ -1,13 +1,12 @@
 
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MainTabScreen from './screens/MainTabScreen';
 
 import  DrawerContent  from "./screens/DrawerContent";
-import SettingsScreen from './screens/SettingsScreen';
 import BookmarksScreeenStack from './stacks/BookmarksScreenStack';
 import SupportScreen from './screens/SupportScreen';
 import OrderHistoryScreenStack from './stacks/OrderHistoryScreenStack';
@@ -22,12 +21,24 @@ import SettingsScreenStack from './stacks/SettingsScreenStack';
 const Drawer = createDrawerNavigator();
  
 export default function App() {
- // const [isLoading, setIsLoading] = React.useState(true);
- // const [userToken, setUserToken] = React.useState<String | null>(null);
  const initialLoginState = {
   isLoading:true,
   userName: null,
   userToken: null,
+}
+
+const errorAlert = (title:string, msg:string) => {
+  return Alert.alert(
+     title,
+     msg,
+         [
+             {
+             text: "OK",
+             onPress: () => console.log("OK Pressed"),
+             style: "cancel"
+             },
+         ]
+ );
 }
 
 const loginReducer = (prevState:any, action:any)=>{
@@ -68,33 +79,69 @@ const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState)
 
 const authContext = React.useMemo(()=>({
       signIn: async (username:any, password:any)=>{
-        // should be api auth
-        
+        // should be api auth get    
         let userToken = null;
-        if(username == 'user' && password == 'pass'){
-               userToken = 'token'
-               try {
-               await AsyncStorage.setItem(
-                   'userToken', userToken)
-                 console.log("sign-in usertoken:",userToken)
-               }catch(e){
-                 console.log(e)
-               }
-        } 
+
+      
+        try {
+          // storage get ? 
+          let UserAuth = await AsyncStorage.getItem(username)
+
+          if(UserAuth){
+            userToken = 'userToken'
+            await AsyncStorage.setItem(
+              'userToken', userToken)
+            console.log("sign-in usertoken:",userToken)
+          } else {
+            errorAlert("Invalid Input" , "Username or Password is Invalid")
+            console.log('no user exhists')
+          }
+     
+        }catch(e){
+          console.log(e)
+        }
+       
         dispatch({type: 'LOGIN', id: username, token: userToken})
       },
       signOut: async() => {
-        // setUserToken(null);
-        // setIsLoading(false);
         try {
           await AsyncStorage.removeItem('userToken');
+          // for cleanup
+          // await AsyncStorage.clear()
         } catch(e) {
+    
           console.log(e);
         }
+   
         dispatch({ type: 'LOGOUT' });
       },
-      signUp:()=>{
+      signUp: async (username:string, password:string)=>{
         // should be input auth 
+        let userToken = null;
+        
+        try {
+        // check if user already exhists
+        userToken = await AsyncStorage.getItem(username);
+        if(userToken){
+          console.log(userToken,"userToken gotten");
+          errorAlert("Invalid Input" , "Username Already Taken")
+          return;
+          
+        }   
+            
+        // set userObject to storage 
+        await AsyncStorage.setItem( username, username);
+        userToken = 'userToken'
+        // create token
+        await AsyncStorage.setItem(
+          'userToken', userToken)
+
+          console.log("sign-up usertoken:" +  userToken, "signup user:"+username)
+        }catch(e){
+          console.log(e)
+        }
+
+        dispatch({type: 'REGISTER', id: username, token: userToken})
      
     },
   }), [])

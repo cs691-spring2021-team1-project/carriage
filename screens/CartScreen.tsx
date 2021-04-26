@@ -25,8 +25,8 @@ const CartScreen = (props:any) => {
            
                 cartItems.length > 0 ?    
                 <ItemsOrdered items={cartItems} onPress={removeItem} /> :
-                <Text>
-                    cart is empty. no items available
+                <Text style={styles.orderTxt}>
+                    Cart is empty. No items available.
                     </Text>
         }
         </View>
@@ -130,6 +130,11 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    orderTxt:{
+        fontSize: 18,
+        fontWeight: '500'
+
     },
     orderDetails:{
         width: '90%',

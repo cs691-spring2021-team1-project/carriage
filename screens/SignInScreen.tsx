@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, StyleSheet, Text,StatusBar, View , Platform, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
+import { TouchableWithoutFeedback, Keyboard, StyleSheet, Text,StatusBar, View , Platform, Image, TouchableOpacity, TextInput, Alert} from 'react-native'
 import { Ionicons as Icon , MaterialCommunityIcons as MaterialIcons, Feather, FontAwesome} from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -8,16 +8,18 @@ import { Const } from '../constants';
 
 
 const SignUpScreen = ({navigation}:any) => {
-    <StatusBar backgroundColor="#32965D" barStyle="light-content"/>
+
      const [data, setData] = React.useState({
          email: '',
          password:'',
-         secureTextEntry: true,
+         secureTextEntry: true,     
          check_circle: false,
+         validEmail: true,
+         validPassword: true
      })
 
      const {signIn} = React.useContext(AuthContext)
-
+   
      const errorAlert = (title:string, msg:string) => {
         return Alert.alert(
            title,
@@ -73,6 +75,7 @@ const SignUpScreen = ({navigation}:any) => {
            errorAlert("Invalid Input" , "Please Choose a Stronger Password")
            return false;
         }
+       
         return true;
      }
 
@@ -83,26 +86,38 @@ const SignUpScreen = ({navigation}:any) => {
      }
 
      const textInputChange = (val:string)=>{
-        if(val.length != 0){
+        if(val.length > 0 && val.length < 320 && val.match(Const.mailformat)){
             setData({
                 ...data,
                 email: val,
-                check_circle: true
+                check_circle: true,
+                validEmail: true
             })
         } else {
             setData({
                 ...data,
                 email: val,
-                check_circle: false
+                check_circle: false,
+                validEmail: false
             })
         }
      }
 
-     const passwordInutChange = (val:string)=>{
-                setData({
-                    ...data,
-                    password: val
-                })
+     const passwordInutChange = (val:string)=> {
+         if(val.length > 12 && !Const.commonPasswords.includes(val)) {
+            setData({
+                ...data,
+                password: val,
+                validPassword: true
+            })
+         } else {
+            setData({
+                ...data,
+                password: val,
+                validPassword: false
+            })
+         }
+               
      }
 
      const updateSecureTextEntry = () =>{
@@ -118,6 +133,9 @@ const SignUpScreen = ({navigation}:any) => {
             <Image  source={require('../assets/App_Logo.png')}/>
             </View>
 
+            <TouchableWithoutFeedback 
+onPress={() => Keyboard.dismiss()}> 
+
             <Animatable.View animation="fadeIn" duration={1000} style={styles.form}> 
 
        
@@ -130,13 +148,17 @@ const SignUpScreen = ({navigation}:any) => {
                    data.check_circle ? (    <Animatable.View
                    animation="bounceIn"
                    duration={2000}>
-<Feather name="check-circle" color="green" size={20}/>
-           
-
-                   </Animatable.View>           ):null
+                <Feather name="check-circle" color="white" size={20}/>
+                </Animatable.View>  ):null
                }
                </View>
-
+              {
+               !data.validEmail ?  (
+                <Animatable.View animation="fadeInLeft" duration={1000} >               
+               <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>Please enter a valid email</Text>
+               </Animatable.View>
+               ) : null
+              }
                
                <Text style={styles.text_footer}> Password</Text>
            <View style={styles.action}>
@@ -153,10 +175,16 @@ const SignUpScreen = ({navigation}:any) => {
                </TouchableOpacity>
        
            </View>
+           {
+               !data.validPassword ?  (   
+                <Animatable.View animation="fadeInLeft" duration={1000} >
+                  <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>Please enter a stronger password</Text>
+                </Animatable.View>
+                
+               ) : null          
+           }
          
-<View style={styles.buttons}>
-
-
+            <View style={styles.buttons}>
                <TouchableOpacity onPress={()=> navigation.navigate("SignUpScreen")}>
                <View style={[styles.button, 
                ]}>
@@ -205,7 +233,7 @@ const SignUpScreen = ({navigation}:any) => {
 
 
             </Animatable.View>
-
+            </TouchableWithoutFeedback>
         </View>
     )
 }
