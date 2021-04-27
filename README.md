@@ -1,6 +1,18 @@
 # Carriage
 ## Repo for Carriage app code and documents. A capstone project for CS691 and CS692, taught by Professor Yuri Chernak at Pace University Spring  and Fall 2021.
 
+Prerequisites:
+
+1. Download Node.js
+2. Download React Native
+
+Installation Intstrcutions: 
+
+1. git clone https://github.com/cs691-spring2021-team1-project/carriage.git
+2. npm install
+3. npm start
+4. Scan Code with ios or android device
+
 </BR>Home Page Demo:
 </BR>![alt text](https://i.ibb.co/3RHfrzJ/carriage-homepage-functionality-demo.gif) ![alt text](https://i.ibb.co/kM2qNJd/carriage-all-screens-gif.gif)
 
