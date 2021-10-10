@@ -17,10 +17,14 @@ import { AuthContext } from './components/context';
 import {Provider} from 'react-redux'
 import store from "./store";
 import SettingsScreenStack from './stacks/SettingsScreenStack';
+import { auth } from './firebase';
+import { firebase } from '@react-native-firebase/auth';
 
 const Drawer = createDrawerNavigator();
  
 export default function App() {
+
+
  const initialLoginState = {
   isLoading:true,
   userName: null,
@@ -78,35 +82,50 @@ const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState)
 
 
 const authContext = React.useMemo(()=>({
-      signIn: async (username:any, password:any)=>{
-        // should be api auth get    
-        let userToken = null;
-
+      signInToken: async (username:string, idToken:string)=>{
+      
       
         try {
           // storage get ? 
-          let UserAuth = await AsyncStorage.getItem(username)
+          let UserAuth = await AsyncStorage.getItem(idToken)
 
           if(UserAuth){
-            userToken = 'userToken'
-            await AsyncStorage.setItem(
-              'userToken', userToken)
-            console.log("sign-in usertoken:",userToken)
+            
+            console.log("sign-in usertoken:",idToken)
+                   
+            dispatch({type: 'LOGIN', id: username, token: idToken})
           } else {
-            errorAlert("Invalid Input" , "Username or Password is Invalid")
-            console.log('no user exhists')
+            
+
+            console.log("Failed to retrieve token. Token doesn't exhist. ADDING IT", idToken)
+            dispatch({type: 'LOGIN', id: username, token: idToken})
+        
           }
      
         }catch(e){
           console.log(e)
         }
-       
-        dispatch({type: 'LOGIN', id: username, token: userToken})
+
       },
       signOut: async() => {
+
         try {
-          await AsyncStorage.removeItem('userToken');
-          // for cleanup
+         
+          let jwtToken = "";
+          auth.onAuthStateChanged(function(user) {
+            if (user) {
+              user.getIdToken().then(function(idToken) {  // <------ Check this line
+                  console.log('sign out',idToken); // It shows the Firebase token now
+                 
+              
+                  
+              });
+            }
+          });
+         
+          await AsyncStorage.removeItem(jwtToken);
+          auth.signOut()
+            // for cleanup
           // await AsyncStorage.clear()
         } catch(e) {
     
@@ -115,36 +134,43 @@ const authContext = React.useMemo(()=>({
    
         dispatch({ type: 'LOGOUT' });
       },
-      signUp: async (username:string, password:string)=>{
-        // should be input auth 
-        let userToken = null;
-        
-        try {
-        // check if user already exhists
-        userToken = await AsyncStorage.getItem(username);
-        if(userToken){
-          console.log(userToken,"userToken gotten");
-          errorAlert("Invalid Input" , "Username Already Taken")
-          return;
-          
-        }   
-            
+      signUp: async (username:string, idToken:string)=>{
+        try{
+       
         // set userObject to storage 
-        await AsyncStorage.setItem( username, username);
-        userToken = 'userToken'
-        // create token
-        await AsyncStorage.setItem(
-          'userToken', userToken)
-
-          console.log("sign-up usertoken:" +  userToken, "signup user:"+username)
+        await AsyncStorage.setItem( idToken, username);
+        console.log("sign-up usertoken:" +  idToken, "signup user:"+username)
+        dispatch({type: 'REGISTER', id: username, token: idToken})
         }catch(e){
           console.log(e)
         }
 
-        dispatch({type: 'REGISTER', id: username, token: userToken})
+       
      
     },
   }), [])
+
+
+
+  React.useEffect(()=>{
+    console.log("checking firebase auth for user")
+    const unsubscribe = auth.onAuthStateChanged((user:any)=>{
+       if(user){
+         
+          user.getIdToken().then(function(idToken:any) {
+      
+      dispatch({ type: 'RETRIEVE_TOKEN', token: idToken });
+       });
+          // navigate to home 
+      
+ 
+       } else {
+         console.log("no user from firebase found")
+       }
+
+    })
+    return unsubscribe
+  },[])
 
   React.useEffect(() => {
     setTimeout(async() => {
@@ -160,7 +186,6 @@ const authContext = React.useMemo(()=>({
       dispatch({ type: 'RETRIEVE_TOKEN', token: userToken });
     }, 1000);
   }, [])
-
 
   if(loginState.isLoading){
     return(

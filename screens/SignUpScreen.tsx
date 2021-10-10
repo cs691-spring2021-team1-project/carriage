@@ -3,12 +3,18 @@ import { TouchableWithoutFeedback, Keyboard, StyleSheet, Text,StatusBar, View , 
 import { Ionicons as Icon , MaterialCommunityIcons as MaterialIcons, Feather, FontAwesome} from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import { AuthContext } from '../components/context';
 import {Const} from '../constants'
 import { specialCharacters } from '../constants/constants';
+import { AuthContext } from '../components/context';
+import { auth, createUserDocument } from '../firebase'
+import { useNavigation } from '@react-navigation/core';
+
 
 
 const SignUpScreen = ({navigation}:any) => {
+  
+
+    const reactNavigation = useNavigation;
     <StatusBar backgroundColor="#32965D" barStyle="light-content"/>
      const [data, setData] = React.useState({
          firstName: '',
@@ -25,6 +31,8 @@ const SignUpScreen = ({navigation}:any) => {
  
      })
      const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
+     
+  
      React.useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
           'keyboardDidShow',
@@ -44,7 +52,10 @@ const SignUpScreen = ({navigation}:any) => {
           keyboardDidShowListener.remove();
         };
       }, []);
-     const {signUp} = React.useContext(AuthContext)
+  
+    const {signUp} =  React.useContext(AuthContext)
+ 
+
 
      const errorAlert = (title:string, msg:string) => {
          return Alert.alert(
@@ -123,12 +134,39 @@ const SignUpScreen = ({navigation}:any) => {
         return true;
      }
 
-     const signUpHandler = (firstName:string, LastName:string, email:string, password:string) => {
-        if (!nameHandler(firstName) || !nameHandler(LastName)) {
+     const signUpHandler = (firstName:string, lastName:string, email:string, password:string) => {
+        console.log('NAMES passed in to signuphandler',firstName,lastName)
+        if (!nameHandler(firstName) || !nameHandler(lastName)) {
             return;
         }
         if (emailHandler(email) && passwordHandler(password)) {
-            signUp(email, password)
+           
+            try {
+              let user;  
+              auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredentials:any) => {
+                    user = userCredentials.user;
+                    user.getIdToken().then(function(idToken:any) {
+                        console.log(idToken);
+                        console.log(data)
+                        signUp(email, idToken)
+                     //   console.log('bootup user token: ', userToken);
+                    })
+
+                
+              
+                })
+
+
+              createUserDocument(user, {firstName, lastName})
+            } catch (error) {
+                
+            }
+           
+          
+            // TODO: add ui message if email address already in use
+
+           
         }
      }
 
