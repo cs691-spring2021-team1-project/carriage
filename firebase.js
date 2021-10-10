@@ -18,6 +18,8 @@ app = fb.apps.length === 0 ? fb.initializeApp(firebaseConfig) : fb.app()
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()
+
+
 const createUserDocument = async (user, userData) =>{
   console.log("USERDATA", userData)
   if(!user) return;
@@ -42,7 +44,7 @@ const createUserDocument = async (user, userData) =>{
         createdAt: new Date()
       })
     } catch (error) {
-      console.log('Error creating user profile', error)
+      console.log('FAILED in creating user profile', error)
     }
  
   }
