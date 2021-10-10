@@ -9,5 +9,6 @@ import Constants from 'expo-constants'
     storageBucket: Constants.manifest.extra.storageBucket,
     messagingSenderId: Constants.manifest.extra.messagingSenderId
   };
-const app = Firebase.initializeApp(config);
-export const db = app.database();
+const firebase = Firebase.initializeApp(config);
+
+export default firebase;
