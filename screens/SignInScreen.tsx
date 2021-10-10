@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import { AuthContext } from '../components/context';
 import { Const } from '../constants';
-
+import { auth } from '../firebase';
 
 const SignUpScreen = ({navigation}:any) => {
 
@@ -18,7 +18,7 @@ const SignUpScreen = ({navigation}:any) => {
          validPassword: true
      })
 
-     const {signIn} = React.useContext(AuthContext)
+     const {signInToken} = React.useContext(AuthContext)
    
      const errorAlert = (title:string, msg:string) => {
         return Alert.alert(
@@ -81,7 +81,19 @@ const SignUpScreen = ({navigation}:any) => {
 
      const signInHandler = (email:string, password:string) => {
         if (emailHandler(email) && passwordHandler(password)) {
-            signIn(email, password)
+            auth.signInWithEmailAndPassword(email, password)
+            .then((userCredentials:any) => {
+                const user = userCredentials.user;
+                user.getIdToken().then(function(idToken:any) {
+                   // console.log(idToken);
+                    signInToken(email, idToken)
+                 //   console.log('bootup user token: ', userToken);
+                });
+                console.log(data)
+                
+               
+            }).catch((error:any)=> alert(error))
+           
         }
      }
 
@@ -134,7 +146,7 @@ const SignUpScreen = ({navigation}:any) => {
             </View>
 
             <TouchableWithoutFeedback 
-onPress={() => Keyboard.dismiss()}> 
+                onPress={() => Keyboard.dismiss()}> 
 
             <Animatable.View animation="fadeIn" duration={1000} style={styles.form}> 
 
