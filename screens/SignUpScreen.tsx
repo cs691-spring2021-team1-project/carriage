@@ -143,24 +143,20 @@ const SignUpScreen = ({navigation}:any) => {
            
             try {
               let user;  
+              
               auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredentials:any) => {
                     user = userCredentials.user;
                     user.getIdToken().then(function(idToken:any) {
-                        console.log(idToken);
-                        console.log(data)
+                        console.log("Token" , idToken);
+                        console.log("Data" , data)
                         signUp(email, idToken)
                      //   console.log('bootup user token: ', userToken);
                     })
-
-                
-              
-                })
-
-
-              createUserDocument(user, {firstName, lastName})
+                    createUserDocument(user, {firstName, lastName})
+                })   
             } catch (error) {
-                
+                console.log(error)
             }
            
           

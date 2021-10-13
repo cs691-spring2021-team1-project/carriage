@@ -2,10 +2,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MainTabScreen from './screens/MainTabScreen';
-
 import  DrawerContent  from "./screens/DrawerContent";
 import BookmarksScreeenStack from './stacks/BookmarksScreenStack';
 import SupportScreen from './screens/SupportScreen';
@@ -18,12 +16,20 @@ import {Provider} from 'react-redux'
 import store from "./store";
 import SettingsScreenStack from './stacks/SettingsScreenStack';
 import { auth } from './firebase';
-import { firebase } from '@react-native-firebase/auth';
+import { Auth } from './src/services';
+import {useFonts} from 'expo-font';
 
 const Drawer = createDrawerNavigator();
  
 export default function App() {
 
+  const [loaded] = useFonts({
+    SFProDisplay: require('./assets/fonts/SFProDisplay-Regular.ttf'),
+  });
+  
+  if (!loaded) {
+      console.log("Was Font Loaded", loaded)
+  }
 
  const initialLoginState = {
   isLoading:true,
@@ -83,8 +89,6 @@ const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState)
 
 const authContext = React.useMemo(()=>({
       signInToken: async (username:string, idToken:string)=>{
-      
-      
         try {
           // storage get ? 
           let UserAuth = await AsyncStorage.getItem(idToken)
@@ -96,8 +100,11 @@ const authContext = React.useMemo(()=>({
             dispatch({type: 'LOGIN', id: username, token: idToken})
           } else {
             
-
             console.log("Failed to retrieve token. Token doesn't exhist. ADDING IT", idToken)
+            await AsyncStorage.setItem( idToken, username)
+              .catch((error) => {
+                console.log("Could not add to AsyncStorage: ", error)
+              })
             dispatch({type: 'LOGIN', id: username, token: idToken})
         
           }
@@ -109,27 +116,46 @@ const authContext = React.useMemo(()=>({
       },
       signOut: async() => {
 
-        try {
+        // try {
          
-          let jwtToken = "";
-          auth.onAuthStateChanged(function(user) {
-            if (user) {
-              user.getIdToken().then(function(idToken) {  // <------ Check this line
-                  console.log('sign out',idToken); // It shows the Firebase token now
+        //   let jwtToken = "";
+        //   auth.onAuthStateChanged(function(user) {
+        //     if (user) {
+        //       user.getIdToken().then(function(idToken) {  // <------ Check this line
+        //           console.log('sign out',idToken); // It shows the Firebase token now
                  
               
                   
-              });
-            }
-          });
+        //       });
+        //     }
+        //   });
          
-          await AsyncStorage.removeItem(jwtToken);
-          auth.signOut()
-            // for cleanup
-          // await AsyncStorage.clear()
-        } catch(e) {
+        //   await AsyncStorage.removeItem(jwtToken);
+        //   auth.signOut()
+        //     // for cleanup
+        //   // await AsyncStorage.clear()
+        // } catch(e) {
     
-          console.log(e);
+        //   console.log(e);
+        // }
+        // emergency AZ-5 Button
+        // await AsyncStorage.clear()
+
+        let token = await Auth.getJWToken();
+      
+        if (!token) {
+          console.log("getJWT did not work")
+        }
+        else {
+          console.log("Token Found: ", token)
+          await Auth.clearCache(token)
+            .then((clearCacheResult) => {
+              console.log("Clear Cache Result ", clearCacheResult)
+              let result = Auth.firebaseSignOut()
+                .then((firebaseSignoutResult) => {
+                  console.log("Firebase Result: ", firebaseSignoutResult)
+                })
+            })
         }
    
         dispatch({ type: 'LOGOUT' });
@@ -142,7 +168,7 @@ const authContext = React.useMemo(()=>({
         console.log("sign-up usertoken:" +  idToken, "signup user:"+username)
         dispatch({type: 'REGISTER', id: username, token: idToken})
         }catch(e){
-          console.log(e)
+          console.log("Could not add to AsyncStorage: ", e)
         }
 
        
@@ -150,24 +176,18 @@ const authContext = React.useMemo(()=>({
     },
   }), [])
 
-
-
-  React.useEffect(()=>{
+  React.useEffect(()=> {
     console.log("checking firebase auth for user")
     const unsubscribe = auth.onAuthStateChanged((user:any)=>{
        if(user){
-         
           user.getIdToken().then(function(idToken:any) {
-      
-      dispatch({ type: 'RETRIEVE_TOKEN', token: idToken });
-       });
+            console.log("Token in UseEffect: ", idToken)
+            dispatch({ type: 'RETRIEVE_TOKEN', token: idToken });
+          });
           // navigate to home 
-      
- 
        } else {
          console.log("no user from firebase found")
        }
-
     })
     return unsubscribe
   },[])
@@ -180,7 +200,7 @@ const authContext = React.useMemo(()=>({
       try {
         userToken = await AsyncStorage.getItem('userToken');
       } catch(e) {
-        console.log(e);
+        console.log("Error: ", e);
       }
       console.log('bootup user token: ', userToken);
       dispatch({ type: 'RETRIEVE_TOKEN', token: userToken });

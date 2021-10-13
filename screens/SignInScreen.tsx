@@ -89,7 +89,7 @@ const SignUpScreen = ({navigation}:any) => {
                     signInToken(email, idToken)
                  //   console.log('bootup user token: ', userToken);
                 });
-                console.log(data)
+                console.log("Data: ", data)
                 
                
             }).catch((error:any)=> alert(error))

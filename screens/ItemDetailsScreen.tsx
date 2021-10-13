@@ -8,7 +8,7 @@ import Images from '../img/index';
 
 const ItemDetailsScreen = ({route, navigation, addItemToCart}:any) => {
     const { category, collection } = route.params;
-    console.log(collection)
+    console.log("Item Collection: " , collection)
     return (
       
 <View>

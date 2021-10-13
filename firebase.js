@@ -1,15 +1,23 @@
 // Import the functions you need from the SDKs you need
 import  * as fb from "firebase"
- import firebase from "firebase/app";
+import firebase from "firebase/app";
 import 'firebase/firestore'
 import 'firebase/auth'
+import Constants from "expo-constants";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
- // config goes here
+  apiKey: Constants.manifest.extra.apiKey,
+  authDomain: Constants.manifest.extra.authDomain,
+  // databaseURL: Constants.manifest.extra.databaseURL,
+  projectId: Constants.manifest.extra.projectId,
+  storageBucket: Constants.manifest.extra.storageBucket,
+  messagingSenderId: Constants.manifest.extra.messagingSenderId,
+  appId: Constants.manifest.extra.appId
 };
 
 // Initialize Firebase
@@ -20,8 +28,9 @@ const auth = firebase.auth()
 const firestore = firebase.firestore()
 
 
-const createUserDocument = async (user, userData) =>{
+const createUserDocument = async (user, userData) => {
   console.log("USERDATA", userData)
+  console.log("User: ", user)
   if(!user) return;
 
   // create user doc in users collection with same uid
@@ -35,7 +44,7 @@ const createUserDocument = async (user, userData) =>{
     const {email} = user;
     const {firstName, lastName} = userData
     console.log('NAMES pulled from userData in to signuphandler',firstName,lastName)
-    
+    console.log("User Ref Before: ", userRef)
     try {
       userRef.set({
         firstName,
@@ -43,14 +52,13 @@ const createUserDocument = async (user, userData) =>{
         email,
         createdAt: new Date()
       })
+      console.log("User Ref: ", userRef)
     } catch (error) {
       console.log('FAILED in creating user profile', error)
     }
- 
   }
-
- 
-
 }
+
+
 export { auth, firestore, createUserDocument }
 

@@ -5,7 +5,7 @@ import VendorListing from './VendorListing'
 
 const Listing = (props:any) => {
     const {title, shape, navigation} = props;
-    console.log(title)
+    console.log("Listing Title: ", title)
     return (
         <View  >
         <Text style={{fontSize:24, fontWeight: '700',margin: 5}}>
