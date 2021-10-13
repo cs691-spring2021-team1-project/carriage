@@ -116,18 +116,48 @@ export const firebaseSignOut = async () => {
     return success
 }
 
-export const clearCache = async (jwToken) => {
-    let success = false;
-    let value = await AsyncStorage.getItem(jwToken)
-    console.log("Value in AsyncStorage", value)
-    await AsyncStorage.removeItem(jwToken)
+const clearSignInCache = async (key) => {
+    return await AsyncStorage.removeItem(key)
         .then(() => {
-            success = true;
+            return true
         })
         .catch(
             (error) => {
-                console.log("Cache could not be cleared: ", error);
+                console.log("SignIn Cache could not be cleared: ", error);
+                return false
             }
         )
-    return success 
+}
+
+const clearTokenCache = async (token) => {
+    return await AsyncStorage.removeItem(token)
+        .then(() => {
+            return true
+        })
+        .catch(
+            (error) => {
+                console.log("Token Cache could not be cleared: ", error);
+                return false
+            }
+        )
+}
+
+export const clearCache = async (jwToken) => {
+
+    return await clearSignInCache('userToken') && await clearTokenCache(jwToken)
+
+    // let success = false;
+    // let value = await AsyncStorage.getItem(jwToken)
+    // console.log("Value in AsyncStorage", value)
+    // await AsyncStorage.removeItem(jwToken)
+    //     .then(() => {
+    //         await AsyncStorage.removeItem('userToken')
+    //         success = true;
+    //     })
+    //     .catch(
+    //         (error) => {
+    //             console.log("Cache could not be cleared: ", error);
+    //         }
+    //     )
+    // return success 
 }

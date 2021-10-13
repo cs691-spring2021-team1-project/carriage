@@ -1,6 +1,8 @@
 import Firebase from 'firebase';
 import Constants from 'expo-constants'
 
+// FIXME: - Migrate firbase imports to this file.
+
  const config = {
     apiKey: Constants.manifest.extra.apiKey,
     authDomain: Constants.manifest.extra.authDomain,

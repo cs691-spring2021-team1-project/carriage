@@ -102,10 +102,16 @@ const authContext = React.useMemo(()=>({
             
             console.log("Failed to retrieve token. Token doesn't exhist. ADDING IT", idToken)
             await AsyncStorage.setItem( idToken, username)
+              .then(async ()=> {
+                await AsyncStorage.setItem('userToken', idToken)
+                let value = await AsyncStorage.getItem(idToken)
+                console.log("AysncStorage: ", value)
+                dispatch({type: 'LOGIN', id: username, token: idToken})
+              })
               .catch((error) => {
                 console.log("Could not add to AsyncStorage: ", error)
               })
-            dispatch({type: 'LOGIN', id: username, token: idToken})
+            
         
           }
      
@@ -148,14 +154,10 @@ const authContext = React.useMemo(()=>({
         }
         else {
           console.log("Token Found: ", token)
-          await Auth.clearCache(token)
-            .then((clearCacheResult) => {
-              console.log("Clear Cache Result ", clearCacheResult)
-              let result = Auth.firebaseSignOut()
-                .then((firebaseSignoutResult) => {
-                  console.log("Firebase Result: ", firebaseSignoutResult)
-                })
-            })
+          let clearCacheResult = await Auth.clearCache(token)
+          console.log("Clear Cache Result ", clearCacheResult)
+          let firebaseSignoutResult =  await Auth.firebaseSignOut()
+          console.log("Firebase Result: ", firebaseSignoutResult)
         }
    
         dispatch({ type: 'LOGOUT' });
@@ -165,6 +167,7 @@ const authContext = React.useMemo(()=>({
        
         // set userObject to storage 
         await AsyncStorage.setItem( idToken, username);
+        await AsyncStorage.setItem('userToken', idToken)
         console.log("sign-up usertoken:" +  idToken, "signup user:"+username)
         dispatch({type: 'REGISTER', id: username, token: idToken})
         }catch(e){

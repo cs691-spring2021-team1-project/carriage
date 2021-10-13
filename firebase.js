@@ -5,6 +5,7 @@ import 'firebase/firestore'
 import 'firebase/auth'
 import Constants from "expo-constants";
 
+// FIXME: DEPRECIATED use firebase.js file located in src and functions are located in serivice file.
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
