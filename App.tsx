@@ -16,7 +16,7 @@ import {Provider} from 'react-redux'
 import store from "./store";
 import SettingsScreenStack from './stacks/SettingsScreenStack';
 import { auth } from './firebase';
-import { Auth } from './src/services';
+import { Auth, deleteUser } from './src/services';
 import {useFonts} from 'expo-font';
 
 const Drawer = createDrawerNavigator();
@@ -176,7 +176,23 @@ const authContext = React.useMemo(()=>({
 
        
      
-    },
+      },
+      deleteAccount: async() => {
+        let user = auth.currentUser
+
+        if (!user) {
+          console.log("No User Logged In")
+        }
+        else {
+          let deleted = await deleteUser(user)
+          if (deleted) {
+            await AsyncStorage.clear()
+            await auth.signOut()
+            dispatch({ type: 'LOGOUT' });
+          }
+          
+        }
+      },
   }), [])
 
   React.useEffect(()=> {

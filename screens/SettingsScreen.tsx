@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { AuthContext } from '../components/context'
 
 const SettingsScreen = () => {
-  const {signOut} = React.useContext(AuthContext)
+  const {signOut, deleteAccount} = React.useContext(AuthContext)
     return (
         <View>
         <ImageBackground style={{height:"100%"}} source={require("../assets/MasterBG.png")}  >
@@ -148,6 +148,15 @@ const SettingsScreen = () => {
                   
                           </View>  
                        </TouchableOpacity>  
+
+                       <TouchableOpacity    onPress={()=> deleteAccount()}>
+                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                       <Text style={{fontSize: 20, fontWeight: 'bold', color: 'red'}}>Delete Account</Text>
+                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                
+                  
+                          </View>  
+                       </TouchableOpacity>
             </View>
             </View>
             </ScrollView>
