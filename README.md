@@ -35,4 +35,6 @@ View our Wiki for documents related to Carriage:
 4. [Implementation](https://github.com/cs691-spring2021-team1-project/carriage/wiki/4.-Implementation)
 5. [Testing](https://github.com/cs691-spring2021-team1-project/carriage/wiki/5.-Testing)
 6. [Airbnb React JSX Style Guide](https://github.com/cs691-spring2021-team1-project/carriage/wiki/6.-Airbnb-React-JSX-Style-Guide)
+7. [Spring 2021 Final-Presentation-Documents](https://github.com/cs691-spring2021-team1-project/carriage/wiki/7.-Final-Presentation-Documents)
+8. [I1 Presentation Documents](https://github.com/cs691-spring2021-team1-project/carriage/wiki/8.-I1-Presentation-Documents)
 
