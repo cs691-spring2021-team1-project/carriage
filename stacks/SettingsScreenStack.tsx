@@ -21,7 +21,7 @@ const SettingsScreenStack = ({navigation}:any) => (
           name="Discounts" 
           component={SettingsScreen}  
           options={{
-            header: ()=>(<CustomHeader title="Order History + Progress" navigation={navigation}/>),
+            header: ()=>(<CustomHeader title="Account Settings" navigation={navigation}/>),
           
                  
           }} />

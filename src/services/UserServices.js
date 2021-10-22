@@ -3,36 +3,32 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, firestore } from '../config';
 
 const deleteUserData = async (user) => {
-    return firestore.collection("users").doc(user.uid).delete()
+    return firestore.collection("users").doc(`users/${user.uid}`).delete()
         .then(() => {
             console.log("User Data in Firestore Deleted")
-            return true
+            return true;
         })
         .catch((error) => {
             console.log("Cannot Delete User Infomation: ", error)
-            return false 
+            return false;
         })
 }
 
 const deleteUserAccount = async () => {
-    return auth.currentUser.delete()
+    auth.currentUser.delete()
         .then( () => {
-            console.log("User Account Deleted")
-            return true
+            await AsyncStorage.clear(); 
+            await auth.signOut();
         })
         .catch((error) => {
             console.log("Cannot Delete User Account: ", error)
-            return false
         })
 }
 
-export const deleteUser = async (user) => {
-    return deleteUserData(user)
+const deleteUser = async (user) => {
+    deleteUserData(user)
         .then( () => {
             console.log("Commence Deletion")
-            return deleteUserAccount();
-        })
-        .catch( (error) => {
-            console.log("Cannot Delete User: ", error)
+            await deleteUserAccount();
         })
 }

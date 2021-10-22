@@ -6,10 +6,41 @@ import {Avatar, Title, Caption, Paragraph, Drawer, TouchableRipple, Switch} from
 import { Ionicons as Icon , MaterialCommunityIcons} from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../components/context';
+import { auth, firestore } from '../firebase';
+
 
 
 const DrawerContent = (props: any) => {
+const [username, setUsername] = React.useState('there')
 const {signOut} = React.useContext(AuthContext)
+
+const getCurrentUser = () =>{
+  auth.onAuthStateChanged(function(userCreds) {
+    if (userCreds) {
+      // User is signed in.
+      console.log("userCreds is signed in.",userCreds['uid'])
+      firestore.collection("users").get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+         if(doc.id == userCreds['uid']){
+          setUsername(doc.data()['firstName'])
+          return;
+         }
+       
+        });
+      });
+    } else {
+      // No user is signed in.
+      console.log("no user is signed in")
+    }
+  });
+}
+
+React.useEffect(()=>{
+  getCurrentUser()
+},[])
+
     return (
   
  <View>
@@ -21,7 +52,7 @@ const {signOut} = React.useContext(AuthContext)
 
                   
                      <View style={{height: 48}}> 
-                         <Text style={{fontSize: 24, fontWeight: 'bold'}}>Hello, User</Text>
+                         <Text style={{fontSize: 24, fontWeight: 'bold'}}>Hello, {username}</Text>
                      </View>
                      
                        

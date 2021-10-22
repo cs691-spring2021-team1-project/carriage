@@ -16,8 +16,10 @@ import {Provider} from 'react-redux'
 import store from "./store";
 import SettingsScreenStack from './stacks/SettingsScreenStack';
 import { auth } from './firebase';
-import { Auth, deleteUser } from './src/services';
+import { Auth } from './src/services';
 import {useFonts} from 'expo-font';
+import UpdateProfileScreen from './screens/UpdateProfileScreen';
+import UpdateProfileScreenScreenStack from './stacks/UpdateProfileStack';
 
 const Drawer = createDrawerNavigator();
  
@@ -54,27 +56,27 @@ const errorAlert = (title:string, msg:string) => {
 const loginReducer = (prevState:any, action:any)=>{
   switch(action.type){
     case 'RETRIEVE_TOKEN':
-      return{
+      return {
         ...prevState,
         userToken: action.token,
         isLoading: false,
       };
     case 'LOGIN':
-        return{
+        return {
           ...prevState,
           userName: action.id,
           userToken: action.token,
           isLoading: false,
     };
     case 'LOGOUT':
-      return{
+      return {
         ...prevState,
         userName: null,
         userToken: null,
         isLoading: false,
       };
     case 'REGISTER':
-      return{
+      return {
         ...prevState,
         userName: action.id,
         userToken: action.token,
@@ -157,7 +159,7 @@ const authContext = React.useMemo(()=>({
           let clearCacheResult = await Auth.clearCache(token)
           console.log("Clear Cache Result ", clearCacheResult)
           let firebaseSignoutResult =  await Auth.firebaseSignOut()
-          console.log("Firebase Result: ", firebaseSignoutResult)
+          console.log("Firebase Signout Result: ", firebaseSignoutResult)
         }
    
         dispatch({ type: 'LOGOUT' });
@@ -176,23 +178,7 @@ const authContext = React.useMemo(()=>({
 
        
      
-      },
-      deleteAccount: async() => {
-        let user = auth.currentUser
-
-        if (!user) {
-          console.log("No User Logged In")
-        }
-        else {
-          let deleted = await deleteUser(user)
-          if (deleted) {
-            await AsyncStorage.clear()
-            await auth.signOut()
-            dispatch({ type: 'LOGOUT' });
-          }
-          
-        }
-      },
+    },
   }), [])
 
   React.useEffect(()=> {
@@ -249,7 +235,7 @@ const authContext = React.useMemo(()=>({
         <Drawer.Screen name="Bookmarks" component={BookmarksScreeenStack}/>
         <Drawer.Screen name="Support" component={SupportScreen}/>
         <Drawer.Screen name="OrderHistory" component={OrderHistoryScreenStack}/>
-        
+        <Drawer.Screen name="UpdateProfile" component={UpdateProfileScreenScreenStack}/>
       </Drawer.Navigator>
  )
  }

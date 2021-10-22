@@ -154,9 +154,24 @@ const SignUpScreen = ({navigation}:any) => {
                      //   console.log('bootup user token: ', userToken);
                     })
                     createUserDocument(user, {firstName, lastName})
-                })   
-            } catch (error) {
-                console.log(error)
+                }).catch((e)=>
+                
+                { 
+                   
+                    console.log(e)
+                    if((e.toString()== 'Error: The email address is already in use by another account.')){
+                        Alert.alert("Email address already taken. Try signing in.")
+                    } else {
+                        Alert.alert(e.toString())
+                    }
+        
+                    
+                  //  console.log(e[0].contains("email address") && e[0].contains("already taken"))
+
+                })  
+            } catch (error:any) {
+              //  console.log(error)
+              //  Alert.alert(error)
             }
            
           
@@ -253,17 +268,15 @@ const SignUpScreen = ({navigation}:any) => {
             ) : null
             }
 
-<TouchableWithoutFeedback 
-onPress={() => Keyboard.dismiss()}> 
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> 
             <Animatable.View animation="fadeIn" duration={1000} style={styles.form}> 
 
             <Text style={styles.text_footer}> First Name</Text>
-           <View style={styles.action}>
+            <View style={styles.action}>
                  <TextInput 
                  onChangeText={(val:string)=> firstNameInputChange(val)} 
                style={styles.textInput}/>
-            
-               </View>
+            </View>
 
                <Text style={styles.text_footer}> Last Name</Text>
            <View style={styles.action}>
@@ -279,7 +292,7 @@ onPress={() => Keyboard.dismiss()}>
                  onChangeText={(val:string)=> emailInputChange(val)} 
                style={styles.textInput}/>
                {
-                   data.check_circle ? (    <Animatable.View
+                   data.check_circle ? (<Animatable.View
                    animation="bounceIn"
                    duration={2000}>
                 <Feather name="check-circle" color="white" size={20}/>
@@ -299,7 +312,7 @@ onPress={() => Keyboard.dismiss()}>
            <View style={styles.action}>
            
                <TextInput  
-               onChangeText={(p)=>passwordInutChange(p)}
+               onChangeText={(val:string)=>passwordInutChange(val)}
              
                secureTextEntry={data.secureTextEntry}
                autoCapitalize="none"
@@ -349,18 +362,18 @@ onPress={() => Keyboard.dismiss()}>
 
         
        
-<View style={styles.trouble}>
+        <View style={styles.trouble}>
 
-<TouchableOpacity>
+        <TouchableOpacity>
 
-    <Text style={styles.troubleText}>Trouble Logging In? Click Here</Text>
-</TouchableOpacity>
-</View>
+        <Text style={styles.troubleText}>Trouble Logging In? Click Here</Text>
+        </TouchableOpacity>
+        </View>
 
 
 
-            </Animatable.View>
-</TouchableWithoutFeedback>
+        </Animatable.View>
+        </TouchableWithoutFeedback>
         </View>
     )
 }

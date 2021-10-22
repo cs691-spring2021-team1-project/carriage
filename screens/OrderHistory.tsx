@@ -4,7 +4,7 @@ import { StyleSheet, Text, View , Image, ImageBackground, TouchableOpacity} from
 const OrderHistory = () => {
     return (
         <View>
-              <ImageBackground style={{height:"100%"}} source={require("../assets/MasterBG.png")}  >
+            <ImageBackground style={{height:"100%"}} source={require("../assets/MasterBG.png")}  >
 
            <View> 
                 <Image style={{marginHorizontal:5}} source={require('../assets/minimap.png')} />
@@ -13,7 +13,7 @@ const OrderHistory = () => {
            <View style={styles.island}></View>
           
           
-           <View style={styles.history}>
+          <View style={styles.history}>
           <Text style={styles.h1}>Order History + Progress</Text>
           <Text style={styles.h1}>Order Details</Text>
           <Text style={styles.h1}>Address</Text>

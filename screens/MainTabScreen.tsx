@@ -10,7 +10,7 @@ import { useFonts } from 'expo-font';
 import HomeScreen from './HomeScreen';
 
 import SearchScreen from './SearchScreen';
-import ProfileScreen from './ProfileScreen';
+import ProfileScreen from './UpdateProfileScreen';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { TouchableOpacity } from 'react-native-gesture-handler';

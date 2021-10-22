@@ -7,67 +7,67 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const Items = ({items, onPress}:any) => {
        
-        const renderItems = items.map((item:any,i:number) =>{
-        let imgSrc = Images.spinach;
-        if(item['name']=='Sweet Potato'){
-          imgSrc= Images.sweetpot
-        } else if(item['name']=='Spinach'){
-          imgSrc= Images.spinach
-        }else if(item['name']=='Celery'){
-          imgSrc= Images.celery
-        }else if(item['name']=='Strawberries'){
-          imgSrc= Images.strawberries
-        }else if(item['name']=='Apples'){
-          imgSrc= Images.apples
-        }else if(item['name']=='Bananas'){
-          imgSrc= Images.bananas
-        }
+  const renderItems = items.map((item:any,i:number) =>{
+  let imgSrc = Images.spinach;
+  if(item['name']=='Sweet Potato'){
+    imgSrc= Images.sweetpot;
+  } else if(item['name']=='Spinach'){
+    imgSrc= Images.spinach;
+  }else if(item['name']=='Celery'){
+    imgSrc= Images.celery;
+  }else if(item['name']=='Strawberries'){
+    imgSrc= Images.strawberries;
+  }else if(item['name']=='Apples'){
+    imgSrc= Images.apples;
+  }else if(item['name']=='Bananas'){
+    imgSrc= Images.bananas;
+  }
    
-       return   (
-        
-            <View key={i} style={[styles.item, {margin: 20}]}>
-            <Image style={{width: 150, height: 150}} source={imgSrc}/>
-            <Text>{item['name']} </Text>
-                <Text>{item['price']}</Text>
-                <TouchableOpacity key={i} onPress={()=> { onPress(item)}}>
-       
-               <View style={[styles.button, 
-               ]}>
-                 
+  return (
 
-                  
-                 <LinearGradient colors={['#FFC250','#FFC250']}
-                 style={[styles.gradient, {
-                   
-                    borderColor: 'black',
-                    borderWidth: .5,
-                    paddingHorizontal: 10
-                }]}>
-                     <Text style={[styles.btnText, {color:'black'}]}>Add To Cart</Text>
+    <View key={i} style={[styles.item, {margin: 20}]}>
+    <Image style={{width: 150, height: 150}} source={imgSrc}/>
+    <Text>{item['name']} </Text>
+        <Text>{item['price']}</Text>
+        <TouchableOpacity key={i} onPress={()=> { onPress(item)}}>
 
-                 </LinearGradient>
-           
-               </View>
-               </TouchableOpacity>
-            
-            </View>
-               
-    
-             
-
-
-           
-  
-   
+        <View style={[styles.button, 
+        ]}>
           
 
-    
-            )
-       
-              }
-     
-    
- 
+          
+          <LinearGradient colors={['#FFC250','#FFC250']}
+          style={[styles.gradient, {
+            
+            borderColor: 'black',
+            borderWidth: .5,
+            paddingHorizontal: 10
+        }]}>
+              <Text style={[styles.btnText, {color:'black'}]}>Add To Cart</Text>
+
+          </LinearGradient>
+
+        </View>
+        </TouchableOpacity>
+
+    </View>
+        
+
+      
+
+
+
+
+
+
+
+
+    )
+
+      }
+
+
+
   );
 
 

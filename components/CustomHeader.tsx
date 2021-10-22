@@ -5,7 +5,7 @@ import ShoppingCartIcon from './ShoppingCartIcon';
 
 const CustomHeader = (props:any) => {
     const {navigation} = props;
-    let height = props.title == "Home" ? 150: 110
+    let height = props.title == "Home" ? 150: 110;
 
     return (
         <View style={{height: height,backgroundColor: '#32965D', justifyContent:'center'}}>

@@ -61,7 +61,7 @@ export const getJWToken =  async () => {
     // return the user.getToken() promise
     // return result
     let token = await auth.currentUser.getIdToken();
-    return token
+    return token;
 }
 
 // perhaps change these functions should return true or false upon successful/failure creation
@@ -119,12 +119,12 @@ export const firebaseSignOut = async () => {
 const clearSignInCache = async (key) => {
     return await AsyncStorage.removeItem(key)
         .then(() => {
-            return true
+            return true;
         })
         .catch(
             (error) => {
                 console.log("SignIn Cache could not be cleared: ", error);
-                return false
+                return false;
             }
         )
 }
@@ -132,12 +132,12 @@ const clearSignInCache = async (key) => {
 const clearTokenCache = async (token) => {
     return await AsyncStorage.removeItem(token)
         .then(() => {
-            return true
+            return true;
         })
         .catch(
             (error) => {
                 console.log("Token Cache could not be cleared: ", error);
-                return false
+                return false;
             }
         )
 }
