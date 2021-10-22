@@ -12,133 +12,127 @@ const SettingsScreen = (props:any) => {
         <View style={{margin:15}}>
             <ScrollView>         
             <View>
-            <Text style={{fontSize:28, fontWeight:'bold', marginVertical:10}}>Account</Text>
-            <View style={{elevation: 10,borderWidth:1, borderRadius:20,  paddingHorizontal:10, borderColor:'black', backgroundColor: '#f7f7f7'}}>
-           
-                       <TouchableOpacity   onPress={()=>{ console.log("navigating to update profile screen"); props.navigation.navigate('UpdateProfile')}}>
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Change Account Information</Text>
-                       <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                       </View>  
-                       </TouchableOpacity>
-        
-                       <TouchableOpacity  >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Payment</Text>
-                       <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                       </View>  
-                       </TouchableOpacity>
-        
+            <Text style={styles.headerText}>Account</Text>
+            <View style={styles.bubble}>
 
-                       <TouchableOpacity>
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Address</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                          </View>  
-                       </TouchableOpacity>
+              <TouchableOpacity   onPress={()=>{ console.log("navigating to update profile screen"); props.navigation.navigate('UpdateProfile')}}>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Change Account Information</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
 
-                       <TouchableOpacity>
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Privacy</Text>
-                        <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                        </View>  
-                       </TouchableOpacity>
+              <TouchableOpacity  >
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Payment</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
 
-                       <TouchableOpacity    >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Delivery Support</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />    
-                         </View>  
-                       </TouchableOpacity>
+
+              <TouchableOpacity>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Address</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Privacy</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
+
+              <TouchableOpacity    >
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Delivery Support</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />    
+                </View>  
+              </TouchableOpacity>
             </View>
             </View>
 
             <View>
-            <Text style={{fontSize:28, fontWeight:'bold', marginVertical:10}}>App Settings</Text>
-            <View style={{borderWidth:1, borderRadius:20,  paddingHorizontal:10, borderColor:'black', backgroundColor: '#f7f7f7'}}>
-                     <TouchableOpacity   >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Bookmarked Orders</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                          </View>  
-                       </TouchableOpacity>
-        
-                       <TouchableOpacity  >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Account Setting</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                
-                  
-                          </View>  
-                       </TouchableOpacity>
-        
+            <Text style={styles.headerText}>App Settings</Text>
+            <View style={styles.bubble}>
+              <TouchableOpacity   >
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Bookmarked Orders</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
 
-                       <TouchableOpacity    >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >App Settings</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                
-                  
-                          </View>  
-                       </TouchableOpacity>
+              <TouchableOpacity  >
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Account Setting</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
 
-                       <TouchableOpacity    >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Contact Customer Service</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                
-                  
-                          </View>  
-                       </TouchableOpacity>
+
+                </View>  
+              </TouchableOpacity>
+
+
+              <TouchableOpacity>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >App Settings</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Contact Customer Service</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
             </View>
             </View>
 
             <View>
-            <Text style={{fontSize:28, fontWeight:'bold', marginVertical:10}}>More</Text>
-            <View style={{borderWidth:1, borderRadius:20,  paddingHorizontal:10, borderColor:'black', backgroundColor: '#f7f7f7'}}>
-                     <TouchableOpacity   >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Bookmarked Orders</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                          </View>  
-                       </TouchableOpacity>
-        
-                       <TouchableOpacity  >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Account Setting</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                
-                  
-                          </View>  
-                       </TouchableOpacity>
-        
+            <Text style={{fontSize:36, fontWeight:'bold', marginVertical:10}}>More</Text>
+            <View style={styles.bubble}>
+            <TouchableOpacity>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Bookmarked Orders</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
 
-                       <TouchableOpacity    >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >App Settings</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                
-                  
-                          </View>  
-                       </TouchableOpacity>
+              <TouchableOpacity  >
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Account Setting</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
 
-                       <TouchableOpacity    >
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text >Contact Customer Service</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                
-                  
-                          </View>  
-                       </TouchableOpacity>
 
-                       <TouchableOpacity    onPress={()=> signOut()}>
-                       <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                       <Text style={{fontSize: 20, fontWeight: 'bold', color: 'red'}}>Log Out!</Text>
-                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                
-                  
-                          </View>  
-                       </TouchableOpacity>  
+              <TouchableOpacity    >
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >App Settings</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
+
+              <TouchableOpacity    >
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Contact Customer Service</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
+
+              <TouchableOpacity    onPress={()=> signOut()}>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={{fontSize: 20, fontWeight: 'bold', color: 'red'}}>Log Out!</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>  
+              <TouchableOpacity    onPress={()=>{console.log('navigating to delete account page'); props.navigation.navigate("DeleteAccount")}}>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={{fontSize: 20, fontWeight: 'bold', color: 'red'}}>Delete Account</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>  
             </View>
             </View>
             </ScrollView>
@@ -150,4 +144,25 @@ const SettingsScreen = (props:any) => {
 
 export default SettingsScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+
+  headerText:{
+    fontSize:36, 
+    fontWeight:"bold", 
+    marginVertical:10
+
+  },
+  
+  innerText:{
+    fontSize:24,
+    fontWeight: '600'
+  },
+  bubble:{
+    elevation: 15, 
+    borderWidth:.5, 
+    borderRadius:20,  
+    paddingHorizontal:10,
+    borderColor:'black', 
+    backgroundColor: '#f7f7f7'
+  }
+})

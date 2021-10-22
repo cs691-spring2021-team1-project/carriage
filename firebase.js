@@ -20,7 +20,7 @@ const firebaseConfig = {
   messagingSenderId: Constants.manifest.extra.messagingSenderId,
   appId: Constants.manifest.extra.appId
 
-};
+ };
 
 // Initialize Firebase
 let app;

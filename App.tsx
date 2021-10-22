@@ -18,8 +18,8 @@ import SettingsScreenStack from './stacks/SettingsScreenStack';
 import { auth } from './firebase';
 import { Auth } from './src/services';
 import {useFonts} from 'expo-font';
-import UpdateProfileScreen from './screens/UpdateProfileScreen';
-import UpdateProfileScreenScreenStack from './stacks/UpdateProfileStack';
+import UpdateProfileScreenScreenStack from './stacks/UpdateProfileScreenStack';
+import DeleteAccountScreenScreenStack from './stacks/DeleteAccountScreenStack';
 
 const Drawer = createDrawerNavigator();
  
@@ -236,6 +236,7 @@ const authContext = React.useMemo(()=>({
         <Drawer.Screen name="Support" component={SupportScreen}/>
         <Drawer.Screen name="OrderHistory" component={OrderHistoryScreenStack}/>
         <Drawer.Screen name="UpdateProfile" component={UpdateProfileScreenScreenStack}/>
+        <Drawer.Screen name="DeleteAccount" component={DeleteAccountScreenScreenStack}/>
       </Drawer.Navigator>
  )
  }

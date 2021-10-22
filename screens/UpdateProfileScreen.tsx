@@ -157,9 +157,9 @@ return unsubscribe;
             <ImageBackground style={{height:"100%"}} source={require("../assets/MasterBG.png")}  >
                 <View style={styles.container}>
                     <ScrollView>      
-                        <Text style={{fontSize:28, fontWeight:'bold', marginVertical:10}}>Profile Details</Text>
+                        <Text style={{fontSize:36, fontWeight:'bold', marginVertical:10}}>Profile Details</Text>
                     
-                        <View style={{elevation: 15, padding: 10, borderWidth:2, borderRadius:20,  paddingHorizontal:10, borderColor:'black', backgroundColor: '#f7f7f7'}}>
+                        <View style={{elevation: 15, padding: 10, borderWidth:.5, borderRadius:20,  paddingHorizontal:10, borderColor:'black', backgroundColor: '#f7f7f7'}}>
                             <Text style={styles.text_footer}> First Name</Text>
                             <View style={styles.action}>
                                 <TextInput 
@@ -229,7 +229,9 @@ export default UpdateProfileScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding:10
+        padding:20,
+        paddingTop: 10
+      
      
       },
       buttons:{
