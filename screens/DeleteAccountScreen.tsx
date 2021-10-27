@@ -50,11 +50,11 @@ const DeleteAccountScreen = (props:any) => {
                          
                             <View style={styles.container}>
                               <View style={styles.checkboxContainer}>
-                              <CheckBox
+                              {/* <CheckBox
                               value={isSelected}
                               onValueChange={setSelection}
                               style={styles.checkbox}
-                              />
+                              /> */}
                               <Text style={styles.label}>Yes, I would like to delete my account.</Text>
                               </View>
                            

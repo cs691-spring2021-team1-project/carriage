@@ -3,6 +3,7 @@ import { StyleSheet, Text, View ,Button, TextInput, ImageBackground, TouchableOp
 import { ScrollView } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import { specialCharacters } from '../constants/constants';
+import { Validators } from '../src/Utils';
 import {Const} from '../constants'
 import { auth, firestore } from '../firebase';
 
@@ -176,13 +177,13 @@ return unsubscribe;
                                />
                             </View>    
 
-                            <Text style={styles.text_footer}> Email</Text>
+                            {/* <Text style={styles.text_footer}> Email</Text>
                             <View style={styles.action}>
                                 <TextInput 
                                 onChangeText={(val:string)=> emailInputChange(val)} 
                                 style={styles.textInput}
                                />
-                            </View>    
+                            </View>     */}
 
 
                             <View style={styles.buttons}>

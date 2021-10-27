@@ -25,6 +25,11 @@ const Drawer = createDrawerNavigator();
  
 export default function App() {
 
+  let today = new Date();
+  let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+  console.log("At App.tsx at: ", time)
+
   const [loaded] = useFonts({
     SFProDisplay: require('./assets/fonts/SFProDisplay-Regular.ttf'),
   });
