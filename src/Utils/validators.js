@@ -1,4 +1,4 @@
-import {Const} from '../../constants/index'}
+import {Const} from '../../constants/index';
 import { Alert } from 'react-native';
 
 const errorAlert = (title, msg) => {
@@ -13,6 +13,23 @@ const errorAlert = (title, msg) => {
                },
            ]
    );
+}
+
+const updateFieldValidator = (input) => {
+   if (input === "") {
+      console.log(input);
+      return false;
+   }
+   if (input.length > 20) {
+      errorAlert("Invalid Input" , "Text limit exceeded");
+      return false;
+   }
+   if (input.match(Const.specialCharacters) || input.includes(" ")) {
+      errorAlert("Invalid Input" , "Special characters not allowed");
+      return false;
+   }
+
+   return true;
 }
 
 const basicValidator = (input) => {
@@ -78,4 +95,4 @@ const passwordValidator = (password) => {
    return true;
 }
 
-export {basicValidator, emailValidator, passwordValidator}
+export {updateFieldValidator, basicValidator, emailValidator, passwordValidator}

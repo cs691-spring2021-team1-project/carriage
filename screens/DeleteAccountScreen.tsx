@@ -5,16 +5,48 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import { specialCharacters } from '../constants/constants';
 import {Const} from '../constants'
+import { Auth, UserService } from '../src/services';
+import { Validators } from '../src/Utils';
 import { auth, firestore } from '../firebase';
+import Feather from '@expo/vector-icons/build/Feather';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DeleteAccountScreen = (props:any) => {
   const [isSelected, setSelection] = React.useState(false);
-
+  const [data, setData] = React.useState({
+    password:'',
+    secureTextEntry: true,
+    check_circle: false,
+    validPassword: true
+  })
    
   React.useEffect(()=>{
 
 
   },[])
+
+  const passwordInutChange = (val:string)=>{
+    if(val.length > 12 && !Const.commonPasswords.includes(val)) {
+        setData({
+            ...data,
+            password: val,
+            validPassword: true
+        })
+     } else {
+        setData({
+            ...data,
+            password: val,
+            validPassword: false
+        })
+     }
+ }
+
+ const updateSecureTextEntry = () =>{
+    setData({
+        ...data,
+        secureTextEntry: !data.secureTextEntry
+    })
+ }
 
 
   const getCurrentUser = () =>{
@@ -22,7 +54,55 @@ const DeleteAccountScreen = (props:any) => {
   
   }
 
-  const deleteCurrentUser = () =>{
+  const errorAlert = (title:string, msg:string) => {
+    return Alert.alert(
+       title,
+       msg,
+           [
+               {
+               text: "OK",
+               onPress: () => console.log("OK Pressed"),
+               style: "cancel"
+               },
+           ]
+    );
+  }
+
+  const deleteCurrentUser = async () =>{
+
+    if (!Validators.passwordValidator(data['password'])) {
+      return
+    }
+
+    let user = auth.currentUser
+
+    if (!user) {
+      console.log("No User Logged In")
+    }
+
+    let email = user?.email
+
+    if (!email) {
+      console.log("email is null")
+      return
+    }
+
+    // lets reauthenticate the user
+
+    let reauthenticated = await Auth.reauthenticate(email,data['password']) 
+
+    if (!reauthenticated) {
+      console.log("Reauthentication Failed, Please")
+      // Quick & Dirty way
+      errorAlert("Invalid Input", "Please Enter Correct Password")
+      return
+    }
+    
+    await UserService.deleteUser(user)
+
+    // FIXME: - HOW TO NAVIAGTE TO SIGN IN SCREEN?
+    props.navigation.navigate('SignInScreen')
+
     // TODO
     // delete auth
     // delete user db
@@ -55,14 +135,29 @@ const DeleteAccountScreen = (props:any) => {
                               onValueChange={setSelection}
                               style={styles.checkbox}
                               /> */}
-                              <Text style={styles.label}>Yes, I would like to delete my account.</Text>
+                              <Text style={styles.label}>Enter Password to delete your account.</Text>
+                              
                               </View>
+
+                              <View style={styles.action}>
+                                <TextInput  
+                                onChangeText={(val:string)=>passwordInutChange(val)}
+                              
+                                secureTextEntry={data.secureTextEntry}
+                                autoCapitalize="none"
+                                style={styles.textInput}/>
+                                <TouchableOpacity onPress={()=> {console.log("password"); updateSecureTextEntry();}}>
+                              {data.secureTextEntry ?   <Feather name="eye-off" color="black" size={20}/> :   <Feather name="eye" color="red" size={20}/> }
+                              
+                                </TouchableOpacity>
+                        
+                            </View>
                            
                             </View>
 
 
                             <View style={styles.buttons}>
-                                <TouchableOpacity onPress={()=> console.log("deleting account")}>
+                                <TouchableOpacity onPress={()=> {console.log("deleting account"); deleteCurrentUser()}}>
                                   <View style={styles.button}>
                                     <LinearGradient colors={['#FF0000','#FF0000']}
                                     style={[styles.signUp, {

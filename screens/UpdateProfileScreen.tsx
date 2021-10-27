@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { specialCharacters } from '../constants/constants';
 import { Validators } from '../src/Utils';
 import {Const} from '../constants'
+import {UserService} from '../src/services'
 import { auth, firestore } from '../firebase';
 
 const UpdateProfileScreen = (props:any) => {
@@ -65,29 +66,41 @@ const UpdateProfileScreen = (props:any) => {
       }
 
       React.useEffect(()=>{
-   const unsubscribe =   getCurrentUser()
-return unsubscribe;
-    
+        const unsubscribe = getCurrentUser()
+        return unsubscribe;
       },[])
 
 
-      const updateCurrentUser = () =>{
-      console.log(data)
+      const updateCurrentUser = async () =>{
+        console.log(data)
 
-      // TODO
+        // TODO
         // update auth
-        
+        let user = auth.currentUser
+
+        if (!user) {
+          console.log("No User Logged In")
+          return
+        }
+
+        // console.log(user)
+
         // update user db
 
+        if (Validators.updateFieldValidator(data['firstName'])) {
+          await UserService.updateUserFirstName(user, data['firstName'])
+        }
+
+        if (Validators.updateFieldValidator(data['lastName'])) {
+          await UserService.updateUserLastName(user, data['lastName'])
+        }
+        
 
         // clean up 
 
         // navigate to home or profile screen
 
-
-
-        
-       
+        props.navigation.navigate('HomeDrawer')
       }
       
       const firstNameInputChange = (val:string)=>{

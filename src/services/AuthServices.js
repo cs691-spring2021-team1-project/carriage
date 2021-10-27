@@ -1,6 +1,7 @@
 // Import db from firebase.js to use firebase functions
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import db from '../config/firebase'
+import firebase from 'firebase';
 
 const auth = db.auth();
 const firestore = db.firestore();
@@ -161,3 +162,18 @@ export const clearCache = async (jwToken) => {
     //     )
     // return success 
 }
+
+export const reauthenticate = async (email, password) => {
+    let user = auth.currentUser
+    let credential = firebase.auth.EmailAuthProvider.credential(email,password)
+ 
+    return user.reauthenticateWithCredential(credential)
+     .then(() => {
+         console.log("User Reauthenticated")
+         return true;
+         })
+     .catch((error) => {
+         console.log("User Cannot be Reauthenticated: ", error)
+         return false;
+     })
+ }
