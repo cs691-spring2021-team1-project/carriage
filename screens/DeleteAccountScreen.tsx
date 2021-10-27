@@ -10,9 +10,11 @@ import { Validators } from '../src/Utils';
 import { auth, firestore } from '../firebase';
 import Feather from '@expo/vector-icons/build/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../components/context';
 
 const DeleteAccountScreen = (props:any) => {
   const [isSelected, setSelection] = React.useState(false);
+  const {deleteAccount} = React.useContext(AuthContext)
   const [data, setData] = React.useState({
     password:'',
     secureTextEntry: true,
@@ -100,8 +102,7 @@ const DeleteAccountScreen = (props:any) => {
     
     await UserService.deleteUser(user)
 
-    // FIXME: - HOW TO NAVIAGTE TO SIGN IN SCREEN?
-    props.navigation.navigate('SignInScreen')
+    deleteAccount();
 
     // TODO
     // delete auth

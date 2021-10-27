@@ -180,10 +180,11 @@ const authContext = React.useMemo(()=>({
         }catch(e){
           console.log("Could not add to AsyncStorage: ", e)
         }
-
-       
-     
     },
+
+    deleteAccount: () => {
+      dispatch({ type: 'LOGOUT' });
+    }
   }), [])
 
   React.useEffect(()=> {
