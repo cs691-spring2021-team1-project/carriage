@@ -20,6 +20,7 @@ import { Auth } from './src/services';
 import {useFonts} from 'expo-font';
 import UpdateProfileScreenScreenStack from './stacks/UpdateProfileScreenStack';
 import DeleteAccountScreenScreenStack from './stacks/DeleteAccountScreenStack';
+import PaymentInfoScreenScreenStack from './stacks/PaymentInfoScreenStack';
 
 const Drawer = createDrawerNavigator();
  
@@ -243,6 +244,7 @@ const authContext = React.useMemo(()=>({
         <Drawer.Screen name="OrderHistory" component={OrderHistoryScreenStack}/>
         <Drawer.Screen name="UpdateProfile" component={UpdateProfileScreenScreenStack}/>
         <Drawer.Screen name="DeleteAccount" component={DeleteAccountScreenScreenStack}/>
+        <Drawer.Screen name="PaymentInfo" component={PaymentInfoScreenScreenStack}/>
       </Drawer.Navigator>
  )
  }
