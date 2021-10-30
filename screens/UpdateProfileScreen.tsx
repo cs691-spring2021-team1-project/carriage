@@ -75,15 +75,13 @@ const UpdateProfileScreen = (props:any) => {
         console.log(data)
 
         // TODO
-        // update auth
+       
         let user = auth.currentUser
 
         if (!user) {
           console.log("No User Logged In")
           return
         }
-
-        // console.log(user)
 
         // update user db
 
@@ -95,9 +93,25 @@ const UpdateProfileScreen = (props:any) => {
           await UserService.updateUserLastName(user, data['lastName'])
         }
         
+        // update auth
+        if (Validators.updateFieldValidator(data['firstName'])) {
+          await UserService.updateUserAuthDisplayName(user, data['firstName'])
+        }
 
-        // clean up 
-
+        // clean up
+       
+        setData({
+          firstName: '',
+          lastName: '',
+          email: '',  
+          secureTextEntry: true,
+          check_circle: false,
+          validFirst: true,
+          validLast: true,
+          validEmail: true,
+          validPassword: true
+        })
+      
         // navigate to home or profile screen
 
         props.navigation.navigate('HomeDrawer')
@@ -177,8 +191,10 @@ const UpdateProfileScreen = (props:any) => {
                             <Text style={styles.text_footer}> First Name</Text>
                             <View style={styles.action}>
                                 <TextInput 
+
                                 onChangeText={(val:string)=> firstNameInputChange(val)} 
                                 style={styles.textInput}
+                                value={data['firstName']}
                                />
                             </View>    
 
@@ -187,6 +203,7 @@ const UpdateProfileScreen = (props:any) => {
                                 <TextInput 
                                 onChangeText={(val:string)=> lastNameInputChange(val)} 
                                 style={styles.textInput}
+                                value={data['lastName']}
                                />
                             </View>    
 

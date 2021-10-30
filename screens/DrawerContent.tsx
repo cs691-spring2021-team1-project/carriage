@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View , Image, ImageBackground} from 'react-native'
+import { StyleSheet, Text, View , Image, ImageBackground, Button} from 'react-native'
 import { DrawerContentScrollView, DrawerItem  } from "@react-navigation/drawer";
 import {Avatar, Title, Caption, Paragraph, Drawer, TouchableRipple, Switch} from 'react-native-paper';
 
@@ -14,16 +14,22 @@ const DrawerContent = (props: any) => {
 const [username, setUsername] = React.useState('there')
 const {signOut} = React.useContext(AuthContext)
 
-const getCurrentUser = () =>{
-  auth.onAuthStateChanged(function(userCreds) {
+
+
+React.useEffect(()=>{
+ const unsubscribe = auth.onAuthStateChanged(function(userCreds) {
     if (userCreds) {
       // User is signed in.
-      console.log("userCreds is signed in.",userCreds['uid'])
+      console.log(
+        "userCreds is signed in.",
+        //userCreds['uid']
+      )
       firestore.collection("users").get()
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
           // doc.data() is never undefined for query doc snapshots
          if(doc.id == userCreds['uid']){
+           
           setUsername(doc.data()['firstName'])
           return;
          }
@@ -35,11 +41,10 @@ const getCurrentUser = () =>{
       console.log("no user is signed in")
     }
   });
-}
 
-React.useEffect(()=>{
-  getCurrentUser()
-},[])
+ return unsubscribe;
+  
+},[auth.currentUser?.displayName])
 
     return (
   
@@ -131,7 +136,8 @@ React.useEffect(()=>{
                        </TouchableOpacity>  
    
           </Drawer.Section>
-        
+
+    
           </View>
           </ImageBackground>
         </View>
