@@ -22,7 +22,7 @@ const SettingsScreen = (props:any) => {
                 </View>  
               </TouchableOpacity>
 
-              <TouchableOpacity  >
+              <TouchableOpacity onPress={()=>{ console.log("navigating to update payment info screen"); props.navigation.navigate('PaymentInfo')}} >
                 <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
                 <Text style={styles.innerText} >Payment</Text>
                 <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
@@ -94,7 +94,7 @@ const SettingsScreen = (props:any) => {
             <View style={styles.bubble}>
             <TouchableOpacity>
                 <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                <Text style={styles.innerText} >Bookmarked Orders</Text>
+                <Text style={styles.innerText}>Bookmarked Orders</Text>
                 <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
                 </View>  
               </TouchableOpacity>

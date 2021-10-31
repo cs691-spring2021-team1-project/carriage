@@ -3,9 +3,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth, firestore } from '../config';
 
 
+
 const updateUserLastName = async (user, lastName) => {
     return firestore.doc(`users/${user.uid}`).update({
-        lastName : lastName
+        lastName : lastName,
+        updatedAt: new Date()
     })
     .then(() => {
         console.log("Last Name User Data in Firestore Updated")
@@ -20,7 +22,8 @@ const updateUserLastName = async (user, lastName) => {
 const updateUserFirstName = async (user, firstName) => {
     
     return firestore.doc(`users/${user.uid}`).update({
-        firstName : firstName
+        firstName : firstName,
+        updatedAt: new Date()
     })
     .then(() => {
         console.log("First Name User Data in Firestore Updated")
@@ -41,6 +44,26 @@ const updateUserFirstName = async (user, firstName) => {
         //     console.log("Cannot Update First Name User Infomation: ", error)
         //     return false;
         // })
+}
+
+const updateUserAuthDisplayName = async (user, firstName ) => {
+
+    return user.updateProfile({
+        displayName:firstName
+       
+        
+       
+      }).then(function() {
+  
+        console.log("User DisplayName Updated", user.displayName)
+        return true;
+      }, function(error) {
+        // An error happened.
+        console.log("Cannont Update User DisplayName", error)
+        return false;
+      });
+
+
 }
 
 const deleteUserData = async (user) => {
@@ -75,4 +98,4 @@ const deleteUser = async (user) => {
 }
 
 
-export {updateUserLastName, updateUserFirstName, deleteUser}
+export {updateUserLastName, updateUserFirstName, deleteUser, updateUserAuthDisplayName}
