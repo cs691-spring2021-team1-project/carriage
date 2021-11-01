@@ -15,7 +15,7 @@ const SignUpScreen = ({navigation}:any) => {
   
 
     const reactNavigation = useNavigation;
-    <StatusBar backgroundColor="#32965D" barStyle="light-content"/>
+    
      const [data, setData] = React.useState({
          firstName: '',
          lastName: '',

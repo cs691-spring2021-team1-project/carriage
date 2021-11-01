@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MainTabScreen from './screens/MainTabScreen';
@@ -21,11 +21,13 @@ import {useFonts} from 'expo-font';
 import UpdateProfileScreenScreenStack from './stacks/UpdateProfileScreenStack';
 import DeleteAccountScreenScreenStack from './stacks/DeleteAccountScreenStack';
 import PaymentInfoScreenScreenStack from './stacks/PaymentInfoScreenStack';
+import AddPaymentMethodScreenScreenStack from './stacks/AddPaymentMethodScreenStack';
+import UpdatePaymentInfoScreenScreenStack from './stacks/UpdatePaymentInfoScreenStack';
 
 const Drawer = createDrawerNavigator();
  
 export default function App() {
-
+  
   let today = new Date();
   let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
@@ -230,13 +232,13 @@ const authContext = React.useMemo(()=>({
   return (
     
     <Provider store={store}>
+      <StatusBar hidden />
     <AuthContext.Provider value={authContext}>
     <NavigationContainer>
                
      { loginState.userToken == null ? <RootStackScreen /> : 
  (
       <Drawer.Navigator drawerStyle={{width: 350}} drawerContent={props => <DrawerContent {...props}/>}>
-
         <Drawer.Screen name="HomeDrawer" component={MainTabScreen}/>
         <Drawer.Screen name="Settings" component={SettingsScreenStack}/>
         <Drawer.Screen name="Bookmarks" component={BookmarksScreeenStack}/>
@@ -245,6 +247,8 @@ const authContext = React.useMemo(()=>({
         <Drawer.Screen name="UpdateProfile" component={UpdateProfileScreenScreenStack}/>
         <Drawer.Screen name="DeleteAccount" component={DeleteAccountScreenScreenStack}/>
         <Drawer.Screen name="PaymentInfo" component={PaymentInfoScreenScreenStack}/>
+        <Drawer.Screen name="AddPayment" component={AddPaymentMethodScreenScreenStack}/>
+        <Drawer.Screen name="UpdatePayment" component={UpdatePaymentInfoScreenScreenStack}/>
       </Drawer.Navigator>
  )
  }
