@@ -158,8 +158,8 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   bubble:{
-    elevation: 15, 
-    borderWidth:.5, 
+    elevation: 5, 
+    borderWidth:.25, 
     borderRadius:20,  
     paddingHorizontal:10,
     borderColor:'black', 

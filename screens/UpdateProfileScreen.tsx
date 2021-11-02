@@ -187,9 +187,11 @@ const UpdateProfileScreen = (props:any) => {
                     <ScrollView>      
                         <Text style={{fontSize:36, fontWeight:'bold', marginVertical:10}}>Profile Details</Text>
                     
-                        <View style={{elevation: 15, padding: 10, borderWidth:.5, borderRadius:20,  paddingHorizontal:10, borderColor:'black', backgroundColor: '#f7f7f7'}}>
-                            <Text style={styles.text_footer}> First Name</Text>
-                            <View style={styles.action}>
+                        <View>
+                            
+                          
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.text}>First Name:</Text>
                                 <TextInput 
 
                                 onChangeText={(val:string)=> firstNameInputChange(val)} 
@@ -198,17 +200,19 @@ const UpdateProfileScreen = (props:any) => {
                                />
                             </View>    
 
-                            <Text style={styles.text_footer}> Last Name</Text>
-                            <View style={styles.action}>
-                                <TextInput 
-                                onChangeText={(val:string)=> lastNameInputChange(val)} 
-                                style={styles.textInput}
-                                value={data['lastName']}
-                               />
+                            <View style={styles.inputContainer}>
+                              <Text style={styles.text}>Last Name:</Text>
+
+                              <TextInput 
+                              onChangeText={(val:string)=> lastNameInputChange(val)} 
+                              style={styles.textInput}
+                              value={data['lastName']}
+                              />
                             </View>    
 
-                            {/* <Text style={styles.text_footer}> Email</Text>
-                            <View style={styles.action}>
+                            {/* 
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.text}> Email</Text>
                                 <TextInput 
                                 onChangeText={(val:string)=> emailInputChange(val)} 
                                 style={styles.textInput}
@@ -278,22 +282,23 @@ const styles = StyleSheet.create({
         width: 130,
         height: 39,
      },
-      text_footer:{
+      text:{
         color:"black",
         
         fontSize: 20,
         fontWeight: 'bold'
     },
-    action:{
-        flexDirection: 'row',
-        marginVertical: 10,
-        borderBottomWidth: .25,
-        borderBottomColor: "#000",
-        paddingBottom: 5,
-        backgroundColor: '#F7F7F7',
-        elevation: 5,
-        justifyContent: 'center',
-        alignItems: 'center'
+    inputContainer:{
+      flexDirection: 'row',
+      marginVertical: 10,
+      borderBottomWidth: .25,
+      borderBottomColor: "#000",
+      paddingBottom: 5,
+      backgroundColor: '#f7f7f7',
+      borderRadius: 15,
+      padding: 5,
+      elevation: 5,
+  
       
         
     },
