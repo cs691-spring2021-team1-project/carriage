@@ -1,5 +1,6 @@
 import {Const} from '../../constants/index';
 import { Alert } from 'react-native';
+import * as valid from 'card-validator'
 
 const errorAlert = (title, msg) => {
     return Alert.alert(
@@ -13,6 +14,44 @@ const errorAlert = (title, msg) => {
                },
            ]
    );
+}
+
+const fullNameValidator = (input) => {
+   return input.match(Const.fullName)
+}
+
+const dateValidator = (input) => {
+   return input.match(Const.dateFormat)
+}
+
+const digitsValidator = (input) => {
+   return input.match(Const.onlyDigits)
+}
+
+const creditCardValidator = (name, cardNo, expDate, cvv) => {
+   
+   if (!valid.cardholderName(name).isPotentiallyValid) {
+      errorAlert("Invalid Input" , "Invalid Card Holder Name");
+      return false;
+   }
+
+   if (!valid.number(cardNo).isPotentiallyValid) {
+      errorAlert("Invalid Input" , "Invalid Card Number");
+      return false;
+   }
+
+   if (!valid.expirationDate(expDate).isPotentiallyValid) {
+      errorAlert("Invalid Input" , "Invalid Card Expiration Date");
+      return false;
+   }
+
+   if (!valid.cvv(cvv).isPotentiallyValid) {
+      errorAlert("Invalid Input" , "Invalid Card Number Security Code");
+      return false;
+   }
+
+   console.log(valid.number(cardNo).card.type)
+   return true;
 }
 
 const updateFieldValidator = (input) => {
@@ -95,4 +134,4 @@ const passwordValidator = (password) => {
    return true;
 }
 
-export {updateFieldValidator, basicValidator, emailValidator, passwordValidator}
+export {updateFieldValidator, digitsValidator, creditCardValidator, dateValidator, fullNameValidator, basicValidator, emailValidator, passwordValidator}

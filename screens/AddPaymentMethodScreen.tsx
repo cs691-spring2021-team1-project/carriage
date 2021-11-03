@@ -1,24 +1,144 @@
 import React from 'react';
-import {StyleSheet,Text, View, ImageBackground, TextInput, TouchableOpacity} from 'react-native'
+import {StyleSheet,Text, View, ImageBackground, TextInput, TouchableOpacity, Alert} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Animatable from 'react-native-animatable';
+import { Validators } from '../src/Utils';
 
 const  AddPaymentMethodScreen = (props:any) => {
    
     const [data, setData] = React.useState({
         name: "",
         cardNo: "",
-        ccv: "",
+        cvv: "",
         expData: "",
+        validName: true,
+        validCardNo: true,
+        validCVV: true,
+        validExpData: true,
 
     })
 
-    const nameInputChange = (val:string) =>{
-        console.log(val)
-    }
-
     const addCardHandler = () =>{
         console.log("submitting card and navigating to payment info"); 
+        
+        if (!data['name'] || !data['cardNo'] || !data['expData'] || !data['cvv']) {
+            Alert.alert(
+                "Error",
+                "Please Enter Valid Credit Card Infomation",
+                    [
+                        {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "cancel"
+                        },
+                    ]
+            );
+            return
+        }
+
+        if (!data['validName'] || !data['validCardNo'] || !data['validExpData'] || !data['validCVV']) {
+            Alert.alert(
+                "Error",
+                "Please Enter Valid Credit Card Infomation",
+                    [
+                        {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "cancel"
+                        },
+                    ]
+            );
+        }
+        console.log(Validators.creditCardValidator(data['name'], data['cardNo'], data['expData'], data['cvv']))
+        // props.navigation.navigate('PaymentInfo');
+    }
+
+    const cancel = () => {
+        setData({
+            name: "",
+            cardNo: "",
+            cvv: "",
+            expData: "",
+            validName: true,
+            validCardNo: true,
+            validCVV: true,
+            validExpData: true,
+        })
+
         props.navigation.navigate('PaymentInfo');
+
+    }
+
+    const nameInputChange = (val:string) =>{
+        if(val.length != 0 && Validators.fullNameValidator(val)){
+            setData({
+                ...data,
+                name: val,
+                validName: true,
+             
+            })
+        } else {
+            setData({
+                ...data,
+                name: val,
+                validName: false
+             
+            })
+        }
+    }
+
+    const cardInputChange = (val:string) =>{
+        if(val.length > 0 && val.length < 20 && Validators.digitsValidator(val)){
+            setData({
+                ...data,
+                cardNo: val.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim(),
+                validCardNo: true
+             
+            })
+        } else {
+            setData({
+                ...data,
+                cardNo: val,
+                validCardNo: false
+             
+            })
+        }
+    }
+
+    const expDateInputChange = (val:string) =>{
+        if(val.length != 0 && Validators.dateValidator(val)){
+            setData({
+                ...data,
+                expData: val,
+                validExpData: true,
+             
+            })
+        } else {
+            setData({
+                ...data,
+                expData: val,
+                validExpData: false,
+             
+            })
+        }
+    }
+
+    const cvvInputChange = (val:string) =>{
+        if(val.length != 0 && Validators.digitsValidator(val)){
+            setData({
+                ...data,
+                cvv: val,
+                validCVV: true,
+             
+            })
+        } else {
+            setData({
+                ...data,
+                cvv: val,
+                validCVV: false,
+             
+            })
+        }
     }
 
     return (
@@ -38,20 +158,36 @@ const  AddPaymentMethodScreen = (props:any) => {
                                 onChangeText={(val:string)=> nameInputChange(val)} 
                                 style={styles.textInput}
                                 value={data['name']}
+                                placeholder='Full Name'
                                 />
-                        </View>    
+                        </View>  
+                        {
+                            !data.validName ?  (
+                                <Animatable.View animation="fadeInLeft" duration={1000} >               
+                            <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>Please enter a valid Full Name</Text>
+                            </Animatable.View>
+                            ) : null
+                        }   
 
                          <View style={styles.inputContainer}>
                          <Text style={styles.text}>Card Number:</Text>
                       
                             <TextInput 
 
-                            onChangeText={(val:string)=> nameInputChange(val)} 
+                            onChangeText={(val:string)=> cardInputChange(val)} 
                             style={styles.textInput}
-                            value={data['name']}
+                            value={data['cardNo']}
+                            maxLength = {19}
                             />
                       
-                        </View>  
+                        </View> 
+                        {
+                            !data.validCardNo ?  (
+                                <Animatable.View animation="fadeInLeft" duration={1000} >               
+                            <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>Please enter a valid Card Number</Text>
+                            </Animatable.View>
+                            ) : null
+                        } 
 
                         <View style={styles.miniInputs}>
                          
@@ -61,25 +197,35 @@ const  AddPaymentMethodScreen = (props:any) => {
                          
                                 <TextInput 
 
-                                onChangeText={(val:string)=> nameInputChange(val)} 
+                                onChangeText={(val:string)=> expDateInputChange(val)} 
                                 style={styles.textInput}
-                                value={data['name']}
+                                value={data['expData']}
+                                placeholder='mm/yy'
+                                maxLength = {5}
                                 />
                                 </View>  
                             </View>
                        
                             <View  style={styles.miniInputContainer}  >
                                     <View style={styles.inputContainer}>
-                                    <Text style={styles.text}>CCV:</Text>
+                                    <Text style={styles.text}>CVV:</Text>
                            
                         
                                 <TextInput 
 
-                                onChangeText={(val:string)=> nameInputChange(val)} 
+                                onChangeText={(val:string)=> cvvInputChange(val)} 
                                 style={styles.textInput}
-                                value={data['name']}
+                                value={data['cvv']}
+                                maxLength = {4}
                                 />
                                 </View>  
+                                {
+                                    !data.validCVV ?  (
+                                        <Animatable.View animation="fadeInLeft" duration={1000} >               
+                                    <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>Please enter a valid CVV</Text>
+                                    </Animatable.View>
+                                    ) : null
+                                } 
                             </View>
 
 
@@ -104,7 +250,7 @@ const  AddPaymentMethodScreen = (props:any) => {
                         </View>
                         </TouchableOpacity>   
 
-                           <TouchableOpacity onPress={()=> { console.log("cancel")  }}>
+                           <TouchableOpacity onPress={()=> { cancel() }}>
                         <View style={[styles.button, 
                         ]}>
                         <LinearGradient colors={['#020202','#020202']}
