@@ -21,7 +21,7 @@ const UpdatePaymentInfoScreenScreenStack = ({navigation}:any) => (
           name="Update Payment" 
           component={UpdatePaymentInfoScreen}  
           options={{
-            header: ()=>(<CustomHeader title="Update Paymentn" navigation={navigation}/>),
+            header: ()=>(<CustomHeader title="Update Payment" navigation={navigation}/>),
           
                  
           }} />

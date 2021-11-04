@@ -2,9 +2,12 @@ import React from 'react';
 import {StyleSheet,Text, View, ImageBackground, TextInput, TouchableOpacity, Alert} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import { Validators } from '../src/Utils';
+import { JSONHandlers, Validators, Formatter } from '../src/Utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const  AddPaymentMethodScreen = (props:any) => {
+
+    // const { data_Being_passed } = props.navigation.state.params;
    
     const [data, setData] = React.useState({
         name: "",
@@ -18,9 +21,7 @@ const  AddPaymentMethodScreen = (props:any) => {
 
     })
 
-    const addCardHandler = () =>{
-        console.log("submitting card and navigating to payment info"); 
-        
+    const checkFields = () => {
         if (!data['name'] || !data['cardNo'] || !data['expData'] || !data['cvv']) {
             Alert.alert(
                 "Error",
@@ -33,7 +34,7 @@ const  AddPaymentMethodScreen = (props:any) => {
                         },
                     ]
             );
-            return
+            return false
         }
 
         if (!data['validName'] || !data['validCardNo'] || !data['validExpData'] || !data['validCVV']) {
@@ -48,9 +49,59 @@ const  AddPaymentMethodScreen = (props:any) => {
                         },
                     ]
             );
+            return false 
         }
-        console.log(Validators.creditCardValidator(data['name'], data['cardNo'], data['expData'], data['cvv']))
+        
+        
+        if (!Validators.creditCardValidator(data['name'], data['cardNo'], data['expData'], data['cvv'])) {
+            return false
+        }
+
+        return true
+    }
+
+    const addCardHandler = async () =>{
+        console.log("submitting card and navigating to payment info"); 
+        
+        if (!checkFields) {
+            return
+        }
+        
+        try {
+            await JSONHandlers.appendCards(
+                Formatter.cardFormatter(data['name'], data['cardNo'], data['expData'], data['cvv']),
+                "creditCard"
+            )
+        } catch (error) {
+            console.error("Can't Add Card to JSONHANDLER in ADDPAYMENT", error)
+            Alert.alert(
+                "Error",
+                "Card Cannot be Added",
+                    [
+                        {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "cancel"
+                        },
+                    ]
+            );
+        }
+
+        setData({
+            name: "",
+            cardNo: "",
+            cvv: "",
+            expData: "",
+            validName: true,
+            validCardNo: true,
+            validCVV: true,
+            validExpData: true,
+        })
+        
+        // JSONHandlers.clearCards('creditCard')
         // props.navigation.navigate('PaymentInfo');
+        props.navigation.goBack()
+        
     }
 
     const cancel = () => {
@@ -65,7 +116,9 @@ const  AddPaymentMethodScreen = (props:any) => {
             validExpData: true,
         })
 
-        props.navigation.navigate('PaymentInfo');
+        // props.navigation.navigate('PaymentInfo');
+        // JSONHandlers.clearCards('creditCard')
+        props.navigation.goBack()
 
     }
 

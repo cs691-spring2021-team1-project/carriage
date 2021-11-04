@@ -219,7 +219,7 @@ const authContext = React.useMemo(()=>({
       console.log('bootup user token: ', userToken);
       dispatch({ type: 'RETRIEVE_TOKEN', token: userToken });
     }, 1000);
-  }, [])
+  }, []);
 
   if(loginState.isLoading){
     return(

@@ -1,31 +1,221 @@
 import React from 'react';
-import {StyleSheet,Text, View, ImageBackground, TextInput, TouchableOpacity} from 'react-native'
+import {StyleSheet,Text, View, ImageBackground, TextInput, TouchableOpacity, Alert} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
+import { Validators, JSONHandlers, Formatter } from '../src/Utils';
+import * as Animatable from 'react-native-animatable';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/core';
 
 const  UpdatePaymentInfoScreen = (props:any) => {
-   
+
     const [data, setData] = React.useState({
-        name: "",
-        cardNo: "",
-        ccv: "",
-        expData: "",
+        name: props.route.params.card.name,
+        cardNo: props.route.params.card.acctNo,
+        cvv: props.route.params.card.ccv,
+        expData: props.route.params.card.expDate,
+        validName: true,
+        validCardNo: true,
+        validCVV: true,
+        validExpData: true,
 
     })
 
-    const nameInputChange = (val:string) =>{
-        console.log(val)
+    const isFocused = useIsFocused();
+
+    const setCardData = () => {
+        console.log("UpdatePaymentInfoScreen Refreshed")
+        setData({
+            name: props.route.params.card.name,
+            cardNo: props.route.params.card.acctNo,
+            cvv: props.route.params.card.ccv,
+            expData: props.route.params.card.expDate,
+            validName: true,
+            validCardNo: true,
+            validCVV: true,
+            validExpData: true,
+        })
     }
 
-    const addCardHandler = () =>{
+    React.useEffect(()=> {
+        isFocused && setCardData()
+
+    },[isFocused])
+
+    const checkFields = () => {
+        if (!data['name'] || !data['cardNo'] || !data['expData'] || !data['cvv']) {
+            Alert.alert(
+                "Error",
+                "Please Enter Valid Credit Card Infomation",
+                    [
+                        {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "cancel"
+                        },
+                    ]
+            );
+            return false
+        }
+
+        if (!data['validName'] || !data['validCardNo'] || !data['validExpData'] || !data['validCVV']) {
+            Alert.alert(
+                "Error",
+                "Please Enter Valid Credit Card Infomation",
+                    [
+                        {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "cancel"
+                        },
+                    ]
+            );
+            return false 
+        }
+        
+        
+        if (!Validators.creditCardValidator(data['name'], data['cardNo'], data['expData'], data['cvv'])) {
+            return false
+        }
+
+        return true
+    }
+
+
+    const addCardHandler = async () =>{
+        console.log("Update Payment Item", props.route.params.card)
         console.log("submitting card and navigating to payment info"); 
+        // props.navigation.navigate('PaymentInfo');
+
+        if (!checkFields()) {
+            return
+        }
+
+        try {
+            await JSONHandlers.updateCardAt(
+                Formatter.cardFormatter(data['name'], data['cardNo'], data['expData'], data['cvv']),
+                props.route.params.index,
+                "creditCard"
+            )
+        } catch (error) {
+            console.error("Can't Add Card to JSONHANDLER in ADDPAYMENT", error)
+            Alert.alert(
+                "Error",
+                "Card Cannot be Updated",
+                    [
+                        {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "cancel"
+                        },
+                    ]
+            );
+        }
+
+        setData({
+            name: "",
+            cardNo: "",
+            cvv: "",
+            expData: "",
+            validName: true,
+            validCardNo: true,
+            validCVV: true,
+            validExpData: true,
+        })
+        
+        // JSONHandlers.clearCards('creditCard')
         props.navigation.navigate('PaymentInfo');
+        
     }
 
     const cancelHandler = () =>{
         console.log("canceling and navigating to payment info"); 
         // clean up data fields
+        setData({
+            name: "",
+            cardNo: "",
+            cvv: "",
+            expData: "",
+            validName: true,
+            validCardNo: true,
+            validCVV: true,
+            validExpData: true,
+        })
+
         props.navigation.navigate('PaymentInfo');
     }
+
+    const nameInputChange = (val:string) =>{
+        if(val.length != 0 && Validators.fullNameValidator(val)){
+            setData({
+                ...data,
+                name: val,
+                validName: true,
+             
+            })
+        } else {
+            setData({
+                ...data,
+                name: val,
+                validName: false
+             
+            })
+        }
+    }
+
+    const cardInputChange = (val:string) =>{
+        if(val.length > 0 && val.length < 20 && Validators.digitsValidator(val)){
+            setData({
+                ...data,
+                cardNo: val.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim(),
+                validCardNo: true
+             
+            })
+        } else {
+            setData({
+                ...data,
+                cardNo: val,
+                validCardNo: false
+             
+            })
+        }
+    }
+
+    const expDateInputChange = (val:string) =>{
+        if(val.length != 0 && Validators.dateValidator(val)){
+            setData({
+                ...data,
+                expData: val,
+                validExpData: true,
+             
+            })
+        } else {
+            setData({
+                ...data,
+                expData: val,
+                validExpData: false,
+             
+            })
+        }
+    }
+
+    const cvvInputChange = (val:string) =>{
+        if(val.length != 0 && Validators.digitsValidator(val)){
+            setData({
+                ...data,
+                cvv: val,
+                validCVV: true,
+             
+            })
+        } else {
+            setData({
+                ...data,
+                cvv: val,
+                validCVV: false,
+             
+            })
+        }
+    }
+
 
     return (
         
@@ -33,7 +223,7 @@ const  UpdatePaymentInfoScreen = (props:any) => {
             <ImageBackground style={{height:"100%"}} source={require("../assets/MasterBG.png")}  >
               
                 <View style={styles.container}>
-                    <Text style={styles.headerText}>Update Payment</Text>
+                    <Text style={styles.headerText}>Add Payment</Text>
                 
                     <View >                 
                         <View style={styles.inputContainer}>
@@ -44,20 +234,36 @@ const  UpdatePaymentInfoScreen = (props:any) => {
                                 onChangeText={(val:string)=> nameInputChange(val)} 
                                 style={styles.textInput}
                                 value={data['name']}
+                                placeholder='Full Name'
                                 />
-                        </View>    
+                        </View>  
+                        {
+                            !data.validName ?  (
+                                <Animatable.View animation="fadeInLeft" duration={1000} >               
+                            <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>Please enter a valid Full Name</Text>
+                            </Animatable.View>
+                            ) : null
+                        }   
 
                          <View style={styles.inputContainer}>
                          <Text style={styles.text}>Card Number:</Text>
                       
                             <TextInput 
 
-                            onChangeText={(val:string)=> nameInputChange(val)} 
+                            onChangeText={(val:string)=> cardInputChange(val)} 
                             style={styles.textInput}
-                            value={data['name']}
+                            value={data['cardNo']}
+                            maxLength = {19}
                             />
                       
-                        </View>  
+                        </View> 
+                        {
+                            !data.validCardNo ?  (
+                                <Animatable.View animation="fadeInLeft" duration={1000} >               
+                            <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>Please enter a valid Card Number</Text>
+                            </Animatable.View>
+                            ) : null
+                        } 
 
                         <View style={styles.miniInputs}>
                          
@@ -67,25 +273,35 @@ const  UpdatePaymentInfoScreen = (props:any) => {
                          
                                 <TextInput 
 
-                                onChangeText={(val:string)=> nameInputChange(val)} 
+                                onChangeText={(val:string)=> expDateInputChange(val)} 
                                 style={styles.textInput}
-                                value={data['name']}
+                                value={data['expData']}
+                                placeholder='mm/yy'
+                                maxLength = {5}
                                 />
                                 </View>  
                             </View>
                        
                             <View  style={styles.miniInputContainer}  >
                                     <View style={styles.inputContainer}>
-                                    <Text style={styles.text}>CCV:</Text>
+                                    <Text style={styles.text}>CVV:</Text>
                            
                         
                                 <TextInput 
 
-                                onChangeText={(val:string)=> nameInputChange(val)} 
+                                onChangeText={(val:string)=> cvvInputChange(val)} 
                                 style={styles.textInput}
-                                value={data['name']}
+                                value={data['cvv']}
+                                maxLength = {4}
                                 />
                                 </View>  
+                                {
+                                    !data.validCVV ?  (
+                                        <Animatable.View animation="fadeInLeft" duration={1000} >               
+                                    <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>Please enter a valid CVV</Text>
+                                    </Animatable.View>
+                                    ) : null
+                                } 
                             </View>
 
 
@@ -111,7 +327,7 @@ const  UpdatePaymentInfoScreen = (props:any) => {
                         </TouchableOpacity>     
 
                  
-                         <TouchableOpacity onPress={()=> { console.log("cancel")  }}>
+                         <TouchableOpacity onPress={()=> { cancelHandler()  }}>
                         <View style={[styles.button, 
                         ]}>
                         <LinearGradient colors={['#020202','#020202']}
