@@ -16,6 +16,7 @@
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
     "@stripe/stripe-react-native": "^0.2.3",
+    "@types/react-navigation": "^3.4.0",
     "card-validator": "^8.1.1",
     "dotenv": "^10.0.0",
     "expo": "~40.0.0",

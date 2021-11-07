@@ -127,6 +127,54 @@ const  UpdatePaymentInfoScreen = (props:any) => {
         
     }
 
+    const deleteCardHandler = async () =>{
+        console.log("Deleting Payment Item", props.route.params.card)
+        console.log("Deleting Payment Item INDEX", props.route.params.index)
+        console.log("submitting card for deletion navigating to payment info"); 
+        // props.navigation.navigate('PaymentInfo');
+
+      
+
+        try {
+
+
+            await JSONHandlers.deleteCardAt(
+                props.route.params.index,
+                "creditCard"
+            )
+
+            // temp
+           // await JSONHandlers.clearCards("creditCard");
+        } catch (error) {
+            console.error("Can't Add Card to JSONHANDLER in ADDPAYMENT", error)
+            Alert.alert(
+                "Error",
+                "Card Cannot be Updated",
+                    [
+                        {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "cancel"
+                        },
+                    ]
+            );
+        }
+
+        setData({
+            name: "",
+            cardNo: "",
+            cvv: "",
+            expData: "",
+            validName: true,
+            validCardNo: true,
+            validCVV: true,
+            validExpData: true,
+        })
+        
+        // JSONHandlers.clearCards('creditCard')
+        props.navigation.navigate('PaymentInfo');
+    }
+
     const cancelHandler = () =>{
         console.log("canceling and navigating to payment info"); 
         // clean up data fields
@@ -223,7 +271,7 @@ const  UpdatePaymentInfoScreen = (props:any) => {
             <ImageBackground style={{height:"100%"}} source={require("../assets/MasterBG.png")}  >
               
                 <View style={styles.container}>
-                    <Text style={styles.headerText}>Add Payment</Text>
+                    <Text style={styles.headerText}>Update Payment</Text>
                 
                     <View >                 
                         <View style={styles.inputContainer}>
@@ -319,12 +367,30 @@ const  UpdatePaymentInfoScreen = (props:any) => {
                         borderRadius: 10,
                         borderColor: 'black',
                         borderWidth: 1.5, 
+                       
                         paddingHorizontal: 10
                         }]}>
                         <Text style={[styles.text, {color:'black'}]}>UPDATE</Text>
                         </LinearGradient>
                         </View>
                         </TouchableOpacity>     
+
+
+                        <TouchableOpacity onPress={()=> { deleteCardHandler()}}>
+                        <View style={[styles.button, 
+                        ]}>
+                        <LinearGradient colors={['#FF0000','#FF0000']}
+                        style={[styles.addCardBtn, {
+                        borderRadius: 10,
+                        borderColor: 'black',
+                        borderWidth: 1.5, 
+                      
+                        paddingHorizontal: 10
+                        }]}>
+                        <Text style={[styles.text, {color:'#f7f7f7'}]}>DELETE CARD</Text>
+                        </LinearGradient>
+                        </View>
+                        </TouchableOpacity>        
 
                  
                          <TouchableOpacity onPress={()=> { cancelHandler()  }}>
@@ -334,7 +400,7 @@ const  UpdatePaymentInfoScreen = (props:any) => {
                         style={[styles.addCardBtn, {
                         borderRadius: 10,
                         borderColor: 'black',
-                        margin: 20,
+                        
                         borderWidth: 1.5, 
                         paddingHorizontal: 10
                         }]}>
@@ -422,15 +488,16 @@ const styles = StyleSheet.create({
         
     },
     buttons:{
-        flex:1,
-        margin: 20,
-        marginTop: 50
+        flex: 1,
+        flexDirection: 'column', 
+        margin: 20
      },
      button:{
        alignItems: 'center',
     
        width: "100%",
-       height: 39,
+       height: 40,
+       marginTop: 20
    },
    addCardBtn:{
        width: "100%",

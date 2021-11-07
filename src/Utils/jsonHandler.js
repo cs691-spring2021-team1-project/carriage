@@ -4,6 +4,7 @@ export const getCards = async (key) => {
     let cardsJson
     try {
         cardsJson = await AsyncStorage.getItem(key)
+        console.log("MY KEY",key)
     } catch (error) {
         console.log(error)
         return []
@@ -16,6 +17,7 @@ export const getCards = async (key) => {
 }
 
 export const addCard = (cardData) => {
+    console.log("adding card",cardData)
     return AsyncStorage.setItem('creditCard', JSON.stringify(cardData))
         .then(json => console.log(json))
         .catch(error => console.error("getCards Error", error));
@@ -35,14 +37,18 @@ export const appendCards = async (card, key) => {
 
 // to remove card from AsyncStorage
 export const deleteCardAt = async (index, key) => {
-    const cardData = await getCards(key)
+
+   
+    let cardData = await getCards(key)
 
     if (!cardData) {
         // Nothing to Clear
         return
     }
 
-    addCard(cardData.splice(index,1))
+    const newCardData=[...cardData]
+    newCardData.splice(index,1);
+    addCard(newCardData)
 }
 
 // to remove card from AsyncStorage

@@ -107,21 +107,7 @@ const  PaymentInfoScreen = (props:any) => {
                         </View>
                         </TouchableOpacity>         
 
-                         <TouchableOpacity onPress={()=> {console.log("deleting card");}}>
-                        <View style={[styles.button, 
-                        ]}>
-                        <LinearGradient colors={['#020202','#020202']}
-                        style={[styles.addCardBtn, {
-                        borderRadius: 10,
-                        margin: 20,
-                        borderColor: 'black',
-                        borderWidth: 1.5, 
-                        paddingHorizontal: 10
-                        }]}>
-                        <Text style={[styles.text, {color:'#f7f7f7'}]}>DELETE CARD</Text>
-                        </LinearGradient>
-                        </View>
-                        </TouchableOpacity>               
+                              
                     </View>
                  
                 </View>
