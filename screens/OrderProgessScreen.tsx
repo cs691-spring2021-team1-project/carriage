@@ -14,7 +14,7 @@ const OrderHistory = () => {
           
           
           <View style={styles.history}>
-          <Text style={styles.h1}>Order History + Progress</Text>
+          <Text style={styles.h1}>Order Progress</Text>
           <Text style={styles.h1}>Order Details</Text>
           <Text style={styles.h1}>Address</Text>
      

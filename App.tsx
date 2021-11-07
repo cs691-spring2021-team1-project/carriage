@@ -23,6 +23,10 @@ import DeleteAccountScreenScreenStack from './stacks/DeleteAccountScreenStack';
 import PaymentInfoScreenScreenStack from './stacks/PaymentInfoScreenStack';
 import AddPaymentMethodScreenScreenStack from './stacks/AddPaymentMethodScreenStack';
 import UpdatePaymentInfoScreenScreenStack from './stacks/UpdatePaymentInfoScreenStack';
+import OrderProgressScreenStack from './stacks/OrderProgressScreenStack';
+import RateItemScreen from './screens/RateItemScreen';
+import RateItemScreenStack from './stacks/RateItemScreenStack';
+import ReceiptScreenStack from './stacks/ReceiptScreenStack';
 
 const Drawer = createDrawerNavigator();
  
@@ -244,11 +248,14 @@ const authContext = React.useMemo(()=>({
         <Drawer.Screen name="Bookmarks" component={BookmarksScreeenStack}/>
         <Drawer.Screen name="Support" component={SupportScreen}/>
         <Drawer.Screen name="OrderHistory" component={OrderHistoryScreenStack}/>
+        <Drawer.Screen name="OrderProgress" component={OrderProgressScreenStack}/>
         <Drawer.Screen name="UpdateProfile" component={UpdateProfileScreenScreenStack}/>
         <Drawer.Screen name="DeleteAccount" component={DeleteAccountScreenScreenStack}/>
         <Drawer.Screen name="PaymentInfo" component={PaymentInfoScreenScreenStack}/>
         <Drawer.Screen name="AddPayment" component={AddPaymentMethodScreenScreenStack}/>
         <Drawer.Screen name="UpdatePayment" component={UpdatePaymentInfoScreenScreenStack}/>
+        <Drawer.Screen name="RateItem" component={RateItemScreenStack}/>
+        <Drawer.Screen name="Receipt" component={ReceiptScreenStack}/>
       </Drawer.Navigator>
  )
  }

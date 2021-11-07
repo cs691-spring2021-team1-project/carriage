@@ -2,11 +2,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import CustomHeader from '../components/CustomHeader';
-import OrderHistory from '../screens/OrderHistoryScreen';
+import OrderProgress from '../screens/OrderProgessScreen';
 
-const OrderHistoryStack = createStackNavigator();
-const OrderHistoryScreenStack = ({navigation}:any) => (
-    <OrderHistoryStack.Navigator   screenOptions={{
+const OrderProgressStack = createStackNavigator();
+const OrderProgressScreenStack = ({navigation}:any) => (
+    <OrderProgressStack.Navigator   screenOptions={{
       headerTitleAlign: 'center',
       
       headerStyle: {
@@ -17,20 +17,20 @@ const OrderHistoryScreenStack = ({navigation}:any) => (
       fontWeight: 'bold',
     },
     }}>
-    <OrderHistoryStack.Screen 
+    <OrderProgressStack.Screen 
           name="Discounts" 
-          component={OrderHistory}  
+          component={OrderProgress}  
           options={{
-            header: ()=>(<CustomHeader title="Order History" navigation={navigation}/>),
+            header: ()=>(<CustomHeader title="Order Progress" navigation={navigation}/>),
           
                  
           }} />
 
-    </OrderHistoryStack.Navigator>
+    </OrderProgressStack.Navigator>
 
 )
 
 
-export default OrderHistoryScreenStack
+export default OrderProgressScreenStack
 
 const styles = StyleSheet.create({})
