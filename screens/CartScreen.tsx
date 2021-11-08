@@ -81,7 +81,10 @@ const CartScreen = (props:any) => {
      </View>
     
      </ScrollView>
-     <TouchableOpacity onPress={()=> console.log('navigate to checkout')}>
+     <TouchableOpacity onPress={()=>{
+console.log('navigate to checkout');
+props.navigation.navigate("Checkout")
+     } }>
                <View style={[styles.button, 
                ]}>
                  
@@ -155,7 +158,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 325,
         height: 43,
-        marginVertical: 20
+        marginVertical:50
     },
     gradient:{
         width: 325,

@@ -189,6 +189,7 @@ const SettingsScreenStack = ({navigation}:any) => (
   <SettingsStack.Screen 
         name="Settings" 
         component={SettingsScreen}  
+        
         options={{
           header: ()=>(<CustomHeader title="Profile & Settings" navigation={navigation}/>),
         
@@ -204,6 +205,7 @@ const MainTabScreen = () => (
     <Tab.Navigator
     initialRouteName="Home"
     activeColor="transparent"
+    backBehavior="none"
     barStyle={{ backgroundColor: '#32965D', height:66 }}
   >
     <Tab.Screen

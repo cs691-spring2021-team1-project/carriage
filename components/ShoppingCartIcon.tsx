@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 const ShoppingCartIcon = (props:any,) => {
  const {cartItems,navigation } = props;
     return (
-        <TouchableOpacity onPress={()=>{  navigation.navigate('CartScreen')}}>
+        <TouchableOpacity onPress={()=>{ props.navigation.navigate('Cart')}}>
             <View>
                 <View style={styles.cartStatus}>
                     <Text style={styles.statusText}>

@@ -27,6 +27,8 @@ import OrderProgressScreenStack from './stacks/OrderProgressScreenStack';
 import RateItemScreen from './screens/RateItemScreen';
 import RateItemScreenStack from './stacks/RateItemScreenStack';
 import ReceiptScreenStack from './stacks/ReceiptScreenStack';
+import CheckoutScreenStack from './stacks/CheckoutScreenStack';
+import CartScreenStack from './stacks/CartScreenStack';
 
 const Drawer = createDrawerNavigator();
  
@@ -256,6 +258,8 @@ const authContext = React.useMemo(()=>({
         <Drawer.Screen name="UpdatePayment" component={UpdatePaymentInfoScreenScreenStack}/>
         <Drawer.Screen name="RateItem" component={RateItemScreenStack}/>
         <Drawer.Screen name="Receipt" component={ReceiptScreenStack}/>
+        <Drawer.Screen name="Cart" component={CartScreenStack}/>
+        <Drawer.Screen name="Checkout" component={CheckoutScreenStack}/>
       </Drawer.Navigator>
  )
  }
