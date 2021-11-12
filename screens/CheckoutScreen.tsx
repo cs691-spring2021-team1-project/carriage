@@ -4,10 +4,66 @@ import { connect } from 'react-redux';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import ItemsOrdered from '../components/ItemsOrdered';
+import { number } from 'card-validator';
+import { auth, firestore } from '../src/config';
 
 
-const CartScreen = (props:any) => {
+const CheckoutScreen = (props:any) => {
     const {cartItems, removeItem} = props;
+    const [total, setTotal] = React.useState(0);
+
+    React.useEffect(()=>{
+        let subtotal = 0;
+        cartItems.forEach((item:any, index:number) => {
+            
+            console.log(item['price'], item)
+            subtotal += item['price'];
+        });
+        console.log("subtotal",subtotal)
+        setTotal(subtotal)
+    },[])
+    console.log("CHECKOUT....ITEMS",cartItems)
+    console.log("CHECKOUT....Total",total)
+    const applePayHandler = () =>{
+        console.log('navigate to payment confirmation with apple pay')
+        // props.navigation.navigate("PaymentConfirmation")
+
+        // pass props to navigation + update page
+        const order = {
+            orderId: 1,
+            cartItems: cartItems,
+            total: total  ,
+            address: {street: "1 Pace Plaza New York NY"} 
+        }
+
+        let user = auth.currentUser;
+
+        if (!user) {
+            console.log("No User Logged In")
+            return
+        }
+        
+        // TODO: update to take multiple orders
+        firestore.doc(`users/${user.uid}`).update({
+            currentOrders: [order]
+        })
+        .then(() => {
+            console.log("Last Name User Data in Firestore Updated")
+           
+        })
+        .catch((error) => {
+            console.log("Cannot Update Last Name User Infomation: ", error)
+            
+        })
+        
+        props.navigation.navigate("PaymentConfirmation", {
+            screen: 'Update Payment',
+            'index' : 0, 
+            'card' : "apple"
+        })
+
+    }
+
     return (   
 
             <View >
@@ -26,6 +82,15 @@ const CartScreen = (props:any) => {
                     Cart is empty. No items available.
                     </Text>
                     }
+
+                    <View style={{flexDirection: 'row', alignItems:'center', justifyContent:'space-between',  maxWidth: "68.0%"}}>
+
+                    <Text> Total:  </Text> 
+                    <Text> {total} </Text>
+                    </View>
+
+               
+               
                     </View>
 
                     <View style={{ width: '100%', margin:10 }}>
@@ -53,7 +118,9 @@ const CartScreen = (props:any) => {
 
                     </ScrollView>
                     <View style={styles.buttons}>
-                    <TouchableOpacity onPress={()=> console.log('navigate to checkout')}>
+                    <TouchableOpacity onPress={()=>{
+                     applePayHandler()
+                    }}>
                     <View style={[styles.button, 
                     ]}>
 
@@ -73,7 +140,10 @@ const CartScreen = (props:any) => {
                     </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={()=> console.log('navigate to checkout')}>
+                    <TouchableOpacity onPress={()=>{
+                         console.log('navigate to payment confirmation with cards')
+                         props.navigation.navigate("PaymentSelect")
+                    }}>
                     <View style={[styles.button, 
                     ]}>
 
@@ -115,7 +185,7 @@ const mapDispatchToProps = (dispatch:any)=>{
       removeItem: (item:any)=> dispatch({type: 'REMOVE_FROM_CART', payload: item})
   }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(CartScreen)
+export default connect(mapStateToProps,mapDispatchToProps)(CheckoutScreen)
 
 const styles = StyleSheet.create({
     container:{

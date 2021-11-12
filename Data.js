@@ -21,19 +21,19 @@ export const fruits = [
 
 export const vegetables = [
     {
-        id:3,
+        id: 4 ,
         name: 'Sweet Potato',
         price: 3.99
     
         
     },
     {
-        id: 4,
+        id: 5,
         name: 'Spinach',
         price: 1.49
     },
     {
-        id:5,
+        id:6,
         name: 'Celery',
         price: 1.99
     }
@@ -50,19 +50,19 @@ export const data = [
             assetImg: 'produce.jpg',
             collection: [
                 {
-                    id:3,
+                    id:4,
                     name: 'Sweet Potato',
                     price: 3.99
                 
                     
                 },
                 {
-                    id: 4,
+                    id:5,
                     name: 'Spinach',
                     price: 1.49
                 },
                 {
-                    id:5,
+                    id:6,
                     name: 'Celery',
                     price: 1.99
                 }

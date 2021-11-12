@@ -2,11 +2,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import CustomHeader from '../components/CustomHeader';
-import OrderProgress from '../screens/OrderProgessScreen';
+import PaymentSelectScreen from '../screens/PaymentSelectScreen';
 
-const OrderProgressStack = createStackNavigator();
-const OrderProgressScreenStack = ({navigation}:any) => (
-    <OrderProgressStack.Navigator   screenOptions={{
+const PaymentSelectStack = createStackNavigator();
+const PaymentSelectScreenStack = ({navigation}:any) => (
+    <PaymentSelectStack.Navigator   screenOptions={{
       headerTitleAlign: 'center',
       
       headerStyle: {
@@ -17,20 +17,20 @@ const OrderProgressScreenStack = ({navigation}:any) => (
       fontWeight: 'bold',
     },
     }}>
-    <OrderProgressStack.Screen 
-          name="Order Progress" 
-          component={OrderProgress}  
+    <PaymentSelectStack.Screen 
+          name="Payment Selection" 
+          component={PaymentSelectScreen}  
           options={{
-            header: ()=>(<CustomHeader title="Order Status: In-Progress" navigation={navigation} />),
+            header: ()=>(<CustomHeader title="Payment Selection" navigation={navigation}/>),
           
                  
           }} />
 
-    </OrderProgressStack.Navigator>
+    </PaymentSelectStack.Navigator>
 
 )
 
 
-export default OrderProgressScreenStack
+export default PaymentSelectScreenStack
 
 const styles = StyleSheet.create({})

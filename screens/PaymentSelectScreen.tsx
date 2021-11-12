@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View , TextInput, ImageBackground, TouchableOpacity, Image, Alert, TouchableNativeFeedbackBase } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons as Icon } from '@expo/vector-icons';
-import { JSONHandlers } from '../src/Utils';
+import { Ionicons as Icon , MaterialCommunityIcons as MaterialIcons, Feather, FontAwesome} from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/core';
+import { JSONHandlers, Validators, Formatter } from '../src/Utils';
 
-const  PaymentInfoScreen = (props:any) => {
+const  PaymentSelect = (props:any) => {
     const [paymentData, setPaymentData] = React.useState(
        [{}]
 
@@ -14,6 +14,10 @@ const  PaymentInfoScreen = (props:any) => {
         //     {name:"john smith", acctNo:"*********4242", ccv:"042", expDate:"12/2042", selected: false}
         // ]
     );
+
+
+    const [selectedItem, setSelectedItem] = React.useState({})
+    const [selectedIndex, setSelectedIndex] = React.useState(-1)
 
     const isFocused = useIsFocused();
 
@@ -29,10 +33,48 @@ const  PaymentInfoScreen = (props:any) => {
 
     },[isFocused])
 
+    const selectHandler = async (item:any, index:any) => {
+       
+        try {
+            console.log("selecting card", index)
+            const cardData = {
+                ...item,
+                selected: true
+            }
+             console.log("card data?", cardData); // => { sound: 'woof', legs: 4 }
+           
+
+            
+           // await JSONHandlers.updateCardAt(
+             //   Formatter.cardFormatter({...cardData}),
+               // props.route.params.index,
+                //"creditCard"
+            //)
+            
+        } catch (error) {
+            console.error("Can't Add Card to JSONHANDLER in ADDPAYMENT", error)
+            Alert.alert(
+                "Error",
+                "Card Cannot be Updated",
+                    [
+                        {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "cancel"
+                        },
+                    ]
+            );
+        }
+
+    }
+
     const renderPaymentData = paymentData.map((item:any,i:number) =>
    
     (
-          <View  key={i} style={{flexDirection: 'row', borderColor: item.selected ? "red" : "black", borderWidth: 1, height: 60,  margin: 10, justifyContent: 'center', alignItems: 'center' }}>
+
+
+<View  key={i} style={{flexDirection: 'row', borderColor: item.selected ? "red" : "black", borderWidth: 1, height: 60,  margin: 10, justifyContent: 'center', alignItems: 'center' }}>
+
             <View style={{flex:1, height: 25, width:75, alignItems: 'center', justifyContent: 'center' }}>
                 <Image style={{flex:1, height: 25, width: 75}} source={require("../assets/visa.png")}/>
             </View>
@@ -41,22 +83,15 @@ const  PaymentInfoScreen = (props:any) => {
                 <Text>{item.expDate}</Text>
             </View>
 
-            <TouchableOpacity style={{padding: 10}} onPress={()=> { updatePaymentHandler(item, i)}}>
-            <Icon name="pencil" size={20}></Icon>
+            <TouchableOpacity style={{padding: 10}} onPress={()=> { selectHandler(item, i)}}>
+            <MaterialIcons name="checkbox-blank-outline" size={20}></MaterialIcons>
             </TouchableOpacity>
+          
           </View>
+
+          
     )
 );
-
- const updatePaymentHandler = (item: any, i: number)=>{
-    // console.log("navigating to update payment option for item:", item); 
-    
-    // pass props to navigation + update page
-    props.navigation.navigate("UpdatePayment", {
-        screen: 'Update Payment',
-        params: {'index' : i, 'card' : item}
-      })
- }
 
 
     return (
@@ -90,7 +125,10 @@ const  PaymentInfoScreen = (props:any) => {
 
 
                     <View style={styles.buttons}>
-                        <TouchableOpacity onPress={()=> {console.log("navigating to adding card page"); props.navigation.navigate('AddPayment', {"Test":"Test"})}}>
+                        <TouchableOpacity onPress={()=> {
+                            console.log("submitting payment and navigating to confirmation"); 
+                            props.navigation.navigate('PaymentConfirmation', {"index": selectedIndex, "card": selectedItem})
+                        }}>
                         <View style={[styles.button, 
                         ]}>
                         <LinearGradient colors={['#FFC250','#FFC250']}
@@ -100,7 +138,7 @@ const  PaymentInfoScreen = (props:any) => {
                         borderWidth: 1.5, 
                         paddingHorizontal: 10
                         }]}>
-                        <Text style={[styles.text, {color:'black'}]}>ADD CARD</Text>
+                        <Text style={[styles.text, {color:'black'}]}>SUBMIT</Text>
                         </LinearGradient>
                         </View>
                         </TouchableOpacity>         
@@ -115,7 +153,7 @@ const  PaymentInfoScreen = (props:any) => {
     );
 }
 
-export default PaymentInfoScreen;
+export default PaymentSelect;
 
 const styles = StyleSheet.create({
     container: {

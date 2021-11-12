@@ -8,26 +8,25 @@ import ItemsOrdered from '../components/ItemsOrdered';
 
 const CartScreen = (props:any) => {
     const {cartItems, removeItem} = props;
-    return (  
-        
-       
     
- <View >
+    console.log("CART....ITEMS",cartItems)
+    return (     
+    <View >
 
-               <ImageBackground style={{height: "100%",
+        <ImageBackground style={{height: "100%",
          
         }} source={require('../assets/MasterBG.png')}>
- <ScrollView >
- <View style={styles.orderDetails}>
+        <ScrollView >
+        <View style={styles.orderDetails}>
         <View style={{width: '100%'}}>
         <Text style={styles.header}>Order Details</Text>
         {
-           
-                cartItems.length > 0 ?    
-                <ItemsOrdered items={cartItems} onPress={removeItem} /> :
-                <Text style={styles.orderTxt}>
-                    Cart is empty. No items available.
-                    </Text>
+
+        cartItems.length > 0 ?    
+        <ItemsOrdered items={cartItems} onPress={removeItem} /> :
+        <Text style={styles.orderTxt}>
+        Cart is empty. No items available.
+        </Text>
         }
         </View>
     
@@ -51,6 +50,13 @@ const CartScreen = (props:any) => {
     <View style={{width:'90%', backgroundColor: '#f7f7f7', elevation:5, alignSelf:'center', borderRadius: 20, margin:10, padding:10}}>
 
         <Text>Address:</Text>
+        <TextInput
+     keyboardType="default"
+     returnKeyType="done"
+     multiline={false}
+     blurOnSubmit={true}
+     onSubmitEditing={()=>{Keyboard.dismiss()}}
+    />
     </View>
      
     <View style={{width:'90%',flexDirection:'row', backgroundColor: '#f7f7f7', elevation:5, alignSelf:'center', borderRadius: 20, margin:10, padding:10}}>
@@ -106,9 +112,9 @@ props.navigation.navigate("Checkout")
   
      
              
-             </ImageBackground>
+    </ImageBackground>
     
- </View>
+</View>
 
     
     )

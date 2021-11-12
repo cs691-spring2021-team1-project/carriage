@@ -28,7 +28,7 @@ const digitsValidator = (input) => {
    return input.match(Const.onlyDigits)
 }
 
-const creditCardValidator = (name, cardNo, expDate, cvv) => {
+const creditCardValidator = (name, cardNo, expDate, cvv, selected) => {
    
    if (!valid.cardholderName(name).isPotentiallyValid) {
       errorAlert("Invalid Input" , "Invalid Card Holder Name");
