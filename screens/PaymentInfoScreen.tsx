@@ -43,6 +43,10 @@ const  PaymentInfoScreen = (props:any) => {
                 <Text>{item.expDate}</Text>
             </View>
 
+            <TouchableOpacity style={{padding: 10}} onPress={()=> {deleteCard(i)}}>
+            <Text>X</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity style={{padding: 10}} onPress={()=> { updatePaymentHandler(item, i)}}>
             <Icon name="pencil" size={20}></Icon>
             </TouchableOpacity>
@@ -58,6 +62,13 @@ const  PaymentInfoScreen = (props:any) => {
         screen: 'Update Payment',
         params: {'index' : i, 'card' : item}
       })
+ }
+
+ const deleteCard = async (index: number)=>{
+    // console.log("navigating to update payment option for item:", item); 
+    
+    await JSONHandlers.deleteCardAt(index, 'creditCard')
+    retrieveCardData();
  }
 
 
