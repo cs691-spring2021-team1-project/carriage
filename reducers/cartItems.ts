@@ -6,6 +6,8 @@ const cartItems = (state :any = [], action:any)=>{
             return [...state, action.payload]
         case 'REMOVE_FROM_CART':
             return state.filter((cartItem:any) => cartItem['id'] !== action.payload['id'])
+        case 'CLEAR_CART':
+            return state = []
 
     }
     return state

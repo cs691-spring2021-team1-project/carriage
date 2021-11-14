@@ -1,12 +1,12 @@
 
 
 
-export const cardFormatter = (name, cardNo, expDate, cvv) => {
+export const cardFormatter = (name, cardNo, expDate, cvv, selected) => {
     return {
         name:name, 
         acctNo:cardNo, 
         ccv:cvv, 
-        expDate:expDate,
-        selected: false,
+        expDate: expDate,
+        selected: selected,
     }
 }
