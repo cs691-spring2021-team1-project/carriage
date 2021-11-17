@@ -2,12 +2,14 @@ import React from 'react'
 import { StyleSheet, Text, View , Image, ImageBackground, TouchableOpacity, Button} from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { Ionicons as Icon } from '@expo/vector-icons';
-
+import { LinearGradient } from 'expo-linear-gradient';
+import * as Animatable from 'react-native-animatable';
 
 const OrderProgress = (props:any) => {
     const [isLoaded, setIsLoaded] = React.useState(false)
     const [order, setOrder] = React.useState({})
     const [items, setItems] = React.useState([])
+    const [awaitingCancelConf, setAwaitingCancelConf] = React.useState(false)
 
     React.useEffect(()=>{
        
@@ -20,30 +22,24 @@ const OrderProgress = (props:any) => {
 
   
     const renderItems = items.map((item:any,i:number) =>
-   
-    (
-  
-     
-    <View  key={i} style={{flexDirection: 'row', alignItems:'center', justifyContent:'space-between'}}>
-      <View style={{flexDirection:'row', flex: 2,alignItems:'center', justifyContent:'space-between', maxWidth: "67%"}} >
-      <Text>1x {item['name']} </Text>
-      <Text>{item['price']}</Text>
+        (
+        <View  key={i} style={{flexDirection: 'row', alignItems:'center', justifyContent:'space-between'}}>
+            <View style={{flexDirection:'row', flex: 2,alignItems:'center', justifyContent:'space-between', maxWidth: "67%"}} >
+                <Text>1x {item['name']} </Text>
+                <Text>{item['price']}</Text>
+            </View>
+        </View>
+        )
+    );
 
-      </View>
+    const cancelOrder = (order:any)=>{
+        console.log("canceling ", !awaitingCancelConf)
+        setAwaitingCancelConf(!awaitingCancelConf)
+        console.log(order)
+        // display cancel order box or screen
+        // pass params
 
-  
-    </View>
-
-  
-
-      )
- 
-
-
-
-
-);
-
+    }
 
   
     return (
@@ -54,8 +50,19 @@ const OrderProgress = (props:any) => {
         <View> 
         <Image style={{marginHorizontal:5}} source={require('../assets/minimap.png')} />
         </View>
-
-        <View style={styles.island}></View>
+    
+     
+              
+                
+       
+        <View style={styles.island}>
+{
+    awaitingCancelConf ? <Animatable.View animation="fadeInLeft" duration={1000} >
+    <Text style={{color:'#963239', fontWeight:'bold', fontSize:16}}>AWAITING CONFIRMATION</Text>
+  </Animatable.View> : null
+}
+        
+        </View>
 
 
         <View style={styles.history}>
@@ -65,14 +72,28 @@ const OrderProgress = (props:any) => {
         <Text style={styles.h1}>Address</Text>
         <Text>{props.route.params.order.address.street}</Text>
 
-        <View style={styles.buttons}>
-        <Button title="Cancel" onPress={()=>{console.log("canceling order")}}/>
-
-
+      
         </View>
+        <View style={styles.buttons}>
      
 
-        </View>
+     <TouchableOpacity onPress={()=> { cancelOrder(order) }}>
+                     <View style={[styles.button, 
+                     ]}>
+                     <LinearGradient colors={['#020202','#020202']}
+                     style={[styles.gradientStyle, {
+                     borderRadius: 10,
+                     borderColor: 'black',
+                     margin: 0,
+                     borderWidth: .5, 
+                     paddingHorizontal: 10
+                     }]}>
+                     <Text style={[styles.text, {color:'#f7f7f7'}]}>CANCEL</Text>
+                     </LinearGradient>
+                     </View>
+     </TouchableOpacity>         
+ </View>
+
 
        
         </View>
@@ -97,9 +118,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f7f7f7',
         borderRadius: 20,
         elevation: 5,
-        shadowColor: 'black',
-        shadowRadius: 10,
-        margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
         borderWidth: .25
 
     },
@@ -122,6 +142,28 @@ const styles = StyleSheet.create({
     },
     buttons:{
         padding: 5,
-        margin: 5
+        margin: 5,
+        width: "80%"
+    },
+    button:{
+        alignItems: 'center',
+     
+        width: "100%",
+        height: 39,
+    },
+    gradientStyle:{
+        width: "100%",
+        height: 39,
+        justifyContent: 'center',
+        alignItems:'center',
+        borderRadius:0,
+        paddingHorizontal: 10
+ 
+    },
+    text:{
+        fontSize: 20,
+        fontWeight: 'bold',
+        alignItems: 'center'
     }
+ 
 })
