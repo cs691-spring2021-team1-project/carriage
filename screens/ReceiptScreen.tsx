@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   
   innerText:{
-    fontSize:24,
+    fontSize:20,
     fontWeight: '600'
   },
   bubble:{

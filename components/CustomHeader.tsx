@@ -6,15 +6,16 @@ import { Ionicons as Icon } from '@expo/vector-icons';
 const CustomHeader = (props:any) => {
     const {navigation} = props;
     let height = props.title == "Home" ? 150: 110;
-
+    let menuIconCondition = props.title == "Home" || props.title == "Coupons" || props.title == "Categories"  || props.title == "Coupons"  || props.title == "Search" ||  props.title == "Profile & Settings"
+    
     return (
         <View style={{height: height,backgroundColor: '#32965D', justifyContent:'center'}}>
         <View style={{ flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', paddingTop:30,paddingHorizontal: 5, margin: 4}}>
           
       {
-          props.title == "Home" ? (<TouchableOpacity  onPress={()=>{navigation.openDrawer()}}>
+          menuIconCondition ? (<TouchableOpacity  onPress={()=>{console.log("menuIcon Condition", menuIconCondition); navigation.openDrawer()}}>
           <Image  source={require('../assets/Side-Menu.png')} />
-          </TouchableOpacity>) : (<TouchableOpacity  onPress={()=>{navigation.goBack()}}>
+          </TouchableOpacity>) : (<TouchableOpacity  onPress={()=>{console.log("menuIcon Condition", menuIconCondition); navigation.goBack()}}>
           <Icon name="arrow-back" color="#e9e9e9" size={30}></Icon>
           </TouchableOpacity>)
       }

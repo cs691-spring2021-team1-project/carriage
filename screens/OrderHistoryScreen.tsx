@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground , Butt
 import { ScrollView } from 'react-native-gesture-handler'
 import { AuthContext } from '../components/context'
 import { auth, firestore } from '../firebase'
+import {getCurrentOrdersData, getPastOrdersData} from '../src/services/OrderServices'
 
 const OrderHistoryScreen = (props:any) => {
   const {signOut} = React.useContext(AuthContext)
@@ -12,61 +13,106 @@ const OrderHistoryScreen = (props:any) => {
   const [pastOrders, setPastOrders]  = React.useState([])
 
     React.useEffect(()=>{
+      
+
+
+    let user = auth.currentUser;
+
+    if (!user) {
+        console.log("No User Logged In")
+        return
+    }
+
+ 
+    // FIX TODO: replace auth.onAuthstate with services with no loop
+    // if this doesnt fix loading downtime add a loader
+   /* const unsubscribe = auth.onAuthStateChanged(function(userCreds) {
+      if (userCreds) {
+        // User is signed in.
+        console.log("userCreds is signed in.",userCreds['uid'])
+        firestore.collection("users").get()
+          .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+           if(doc.id == userCreds['uid']){
+            let res = doc.data()
+            console.log("VIEW ORDER HISTORY current data", res['currentOrders'])
+        
+           // get currentOrder
+           if(res['currentOrders'])
+           setCurrentOrders(res['currentOrders'])
+           // get pastOrders
+            return;
+           }
+         
+          });
+        });
+      } else {
+        // No user is signed in.
+        console.log("no user is signed in")
+      }
+
+   
+    });
+*/
+      getCurrentOrdersData(user, setCurrentOrders)
+      getPastOrdersData(user, setPastOrders)
+    // getPastOrdersData(user)
+
+
+
+    
+
+
+
+      
+    },[])
+
+ 
+
+    const getCurrentOrdersHandler = async (user:any) =>{
+        console.log("calling current orders")
+        await getCurrentOrdersData(user)
+        console.log("called current orders")
+    }
+
+    
+    const getPastOrdersHandler = async (user:any) =>{
+     
+
+      console.log("calling PAST orders")
+        await getPastOrdersData(user)
+        console.log("called PAST orders")
+    }
+
+    const currentOrdersHandler = (item:any) =>{
 
       let user = auth.currentUser;
 
       if (!user) {
-          console.log("No User Logged In")
-          return
+      console.log("No User Logged In")
+      return
       }
 
-      const unsubscribe = auth.onAuthStateChanged(function(userCreds) {
-        if (userCreds) {
-          // User is signed in.
-          console.log("userCreds is signed in.",userCreds['uid'])
-          firestore.collection("users").get()
-            .then(function(querySnapshot) {
-              querySnapshot.forEach(function(doc) {
-              // doc.data() is never undefined for query doc snapshots
-             if(doc.id == userCreds['uid']){
-              let res = doc.data()
-              console.log("VIEW ORDER HISTORY current data", res['currentOrders'])
-          
-             // get currentOrder
-             if(res['currentOrders'])
-             setCurrentOrders(res['currentOrders'])
-             // get pastOrders
-              return;
-             }
-           
-            });
-          });
-        } else {
-          // No user is signed in.
-          console.log("no user is signed in")
-        }
+      getCurrentOrdersData(user)
 
-     
-      });
-      return unsubscribe;
-      
-    },[])
 
-    const currentOrdersHandler = (item:any) =>{
+    
       console.log("navigating to  order progress"); 
-     
 
-    props.navigation.navigate('OrderProgress', {
+      props.navigation.navigate('OrderProgress', {
       screen: 'Order Progress',
       params: {'index' : item['orderId'], 'order' : item}
-    });
-
-      
+      });     
     }
 
-    const renderOrders = currentOrders.map((item:any,i:number) =>
+    const pastOrdersHandler = () =>{
+console.log("navigating to reciepts & ratings"); props.navigation.navigate('Receipt')
+    }
+
+    const renderOrders = currentOrders?.map((item:any,i:number) =>
       (
-        <View style={styles.bubble}>
+        <View key={i} style={styles.bubble}>
         <TouchableOpacity   onPress={()=>{ 
          // pass order data
           currentOrdersHandler(item)
@@ -105,7 +151,7 @@ const OrderHistoryScreen = (props:any) => {
             <ScrollView>         
             <View>
             <Text style={styles.headerText}>Current Orders</Text>
-          {currentOrders.length > 0 ? renderOrders : <View>
+          {currentOrders?.length > 0 ? renderOrders : <View>
             <Text>No orders</Text>
             </View>}
             </View>
@@ -113,7 +159,7 @@ const OrderHistoryScreen = (props:any) => {
             <View>
             <Text style={styles.headerText}>Past Orders</Text>
             <View style={styles.bubble}>
-              <TouchableOpacity onPress={()=>{ console.log("navigating to reciepts & ratings"); props.navigation.navigate('Receipt') }}  >
+              <TouchableOpacity onPress={()=>{ pastOrdersHandler() }}  >
                 <View style={{flexDirection: 'row'}}>
 
                   <View  style={{flex:1, borderWidth:.25, borderRadius:20,alignItems: 'center', justifyContent: 'center'}}>

@@ -43,7 +43,7 @@ const CheckoutScreen = (props:any) => {
             return
         }
         
-        // TODO: update to take multiple orders
+        // TODO: update to take multiple orders ////////////////
         firestore.doc(`users/${user.uid}`).update({
             currentOrders: [order]
         })
@@ -164,6 +164,21 @@ const CheckoutScreen = (props:any) => {
                     </TouchableOpacity>
 
 
+                    <TouchableOpacity onPress={()=> { console.log("clearing cart and navigating back to home") }}>
+                     <View style={[styles.button, 
+                     ]}>
+                     <LinearGradient colors={['#020202','#020202']}
+                     style={[styles.gradient, {
+                     borderRadius: 10,
+                     borderColor: 'black',
+                     margin: 0,
+                     borderWidth: .5, 
+                     paddingHorizontal: 10
+                     }]}>
+                     <Text style={[styles.btnText, {color:'#f7f7f7'}]}>CANCEL</Text>
+                     </LinearGradient>
+                     </View>
+     </TouchableOpacity>         
                     </View>
                 </View>
             </ImageBackground>
