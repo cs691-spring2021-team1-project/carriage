@@ -26,9 +26,9 @@ const Items = ({items, onPress}:any) => {
   return (
 
     <View key={i} style={[styles.item, {margin: 20}]}>
-    <Image style={{width: 150, height: 150}} source={imgSrc}/>
-    <Text>{item['name']} </Text>
-        <Text>{item['price']}</Text>
+    <Image style={{width: 300, height: 150, borderTopLeftRadius: 20, borderTopRightRadius:20}} source={imgSrc}/>
+    <Text style={styles.text}>{item['name']} </Text>
+        <Text style={styles.text}>{item['price']}</Text>
         <TouchableOpacity key={i} onPress={()=> { onPress(item)}}>
 
         <View style={[styles.button, 
@@ -38,7 +38,7 @@ const Items = ({items, onPress}:any) => {
           
           <LinearGradient colors={['#FFC250','#FFC250']}
           style={[styles.gradient, {
-            
+            borderRadius: 20,
             borderColor: 'black',
             borderWidth: .5,
             paddingHorizontal: 10
@@ -85,11 +85,23 @@ export default Items
 const styles = StyleSheet.create({
 
   item: {
-    borderColor: '#000',
-    borderWidth: 1,
+    
+    
     padding: 10,
-    paddingHorizontal: 20,
-    margin: 3
+    paddingTop: 0,
+    
+    
+   
+    elevation: 5, 
+    borderWidth:.25, 
+    borderRadius:20,  
+    margin: 5,
+    borderColor:'black', 
+    backgroundColor: '#f7f7f7',
+    flex: 1,
+    flexDirection: "column",
+    width: 300, 
+    alignItems: 'center'
   },
   itemText:{
       color: '#f7f7f7', 
@@ -124,4 +136,8 @@ btnText:{
     fontWeight:'bold',
     textAlign:'center'
 },
+text:{
+  fontSize: 20,
+  fontWeight: "bold"
+}
 })

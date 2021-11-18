@@ -8,21 +8,46 @@ const ReceiptScreen = (props:any) => {
         <View>
         <ImageBackground style={{height:"100%"}} source={require("../assets/MasterBG.png")}  >
 
-        <View style={{margin:15}}>
-            <ScrollView>         
-            <View>
+        <View style={{ height: "100%", margin:10}}>
+            <ScrollView style={{ height: "100%"}}>         
+            <View style={{ height: "100%"}}>
                 <Text style={styles.headerText}>Reciepts</Text>
                 <View style={styles.bubble}>
-                                             <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
-                        <Text style={styles.innerText} >Item </Text>
-                        <Text style={styles.innerText} >Price </Text>
-                        <TouchableOpacity   onPress={()=>{ console.log("navigating to Rate Item screen"); props.navigation.navigate('RateItem')}}>
-  
-                        <Text style={styles.innerText} > ***** </Text>
-                                    
-                    </TouchableOpacity>
-                        <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                        </View>  
+                  <Text style={{fontSize: 24, fontWeight: 'bold'}}>Order #1</Text>
+
+<View style={styles.item}>
+<Text style={styles.innerText} >1x Sweet Potato </Text>
+<Text style={styles.innerText} >3.99 </Text>
+<TouchableOpacity   onPress={()=>{ console.log("navigating to Rate Item screen"); props.navigation.navigate('RateItem')}}>
+
+<Text>Rate this item</Text>
+<Text style={styles.innerText} >✰✰✰✰✰</Text>
+
+</TouchableOpacity>
+
+
+
+</View>  
+
+<View style={styles.item}>
+<Text style={styles.innerText} >1x Sweet Potato </Text>
+<Text style={styles.innerText} >3.99 </Text>
+<TouchableOpacity   onPress={()=>{ console.log("navigating to Rate Item screen"); props.navigation.navigate('RateItem')}}>
+<Text>Rate this item</Text>
+<Text style={styles.innerText} >✰✰✰✰✰</Text>
+</TouchableOpacity>
+</View>  
+
+<View style={styles.itemTotals}>
+<Text style={styles.innerText} >Tax: </Text>
+<Text style={styles.innerText} >0.65 </Text>
+
+</View> 
+<View style={styles.itemTotals}>
+<Text style={styles.innerText} >Total: </Text>
+<Text style={styles.innerText} >8.63 </Text>
+
+</View> 
             
                 </View>
             </View>
@@ -45,7 +70,7 @@ const styles = StyleSheet.create({
   },
   
   innerText:{
-    fontSize:24,
+    fontSize:20,
     fontWeight: '600'
   },
   bubble:{
@@ -54,6 +79,21 @@ const styles = StyleSheet.create({
     borderRadius:20,  
     paddingHorizontal:10,
     borderColor:'black', 
-    backgroundColor: '#f7f7f7'
+    backgroundColor: '#f7f7f7',
+    padding: 10,
+  },
+  item:{
+    flexDirection: 'row', 
+    height: 48, 
+    marginVertical: 10, 
+    alignItems: 'center', 
+    justifyContent: "space-between"
+  },
+  itemTotals:{
+    flexDirection: 'row', 
+    height: 48, 
+    fontSize: 16,
+    alignItems: 'center', 
+    justifyContent: "space-evenly"
   }
 })
