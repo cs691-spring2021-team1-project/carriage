@@ -18,7 +18,7 @@ const ReceiptScreenStack = ({navigation}:any) => (
     },
     }}>
     <ReceiptStack.Screen 
-          name="Discounts" 
+          name="Receipts" 
           component={ReceiptScreen}  
           options={{
             header: ()=>(<CustomHeader title="Receipt" navigation={navigation}/>),

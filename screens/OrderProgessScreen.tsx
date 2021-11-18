@@ -4,6 +4,8 @@ import { ActivityIndicator } from 'react-native-paper'
 import { Ionicons as Icon } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import { cancelCurrentOrder } from '../src/services/OrderServices';
+import { auth, firestore } from '../firebase'
 
 const OrderProgress = (props:any) => {
     const [isLoaded, setIsLoaded] = React.useState(false)
@@ -33,9 +35,17 @@ const OrderProgress = (props:any) => {
     );
 
     const cancelOrder = (order:any)=>{
-        console.log("canceling ", !awaitingCancelConf)
-        setAwaitingCancelConf(!awaitingCancelConf)
+
+        let user = auth.currentUser;
+
+        if (!user) {
+            console.log("No User Logged In")
+            return
+        }
+        // console.log("canceling ", !awaitingCancelConf)
+        // setAwaitingCancelConf(!awaitingCancelConf)
         console.log(order)
+        cancelCurrentOrder(user)
         // display cancel order box or screen
         // pass params
 

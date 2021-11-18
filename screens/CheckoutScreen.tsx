@@ -32,6 +32,7 @@ const CheckoutScreen = (props:any) => {
         const order = {
             orderId: 1,
             cartItems: cartItems,
+            orderStatus: 'AWAITING CONFIRMATION',
             total: total  ,
             address: {street: "1 Pace Plaza New York NY"} 
         }

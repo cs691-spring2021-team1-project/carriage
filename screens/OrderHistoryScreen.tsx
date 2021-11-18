@@ -6,7 +6,7 @@ import { auth, firestore } from '../firebase'
 import {getCurrentOrdersData, getPastOrdersData} from '../src/services/OrderServices'
 
 const OrderHistoryScreen = (props:any) => {
-  const {signOut} = React.useContext(AuthContext)
+  // const {signOut} = React.useContext(AuthContext)
 
   const [currentOrders, setCurrentOrders]  = React.useState([])
   
@@ -95,8 +95,6 @@ const OrderHistoryScreen = (props:any) => {
       }
 
       getCurrentOrdersData(user)
-
-
     
       console.log("navigating to  order progress"); 
 
@@ -106,11 +104,15 @@ const OrderHistoryScreen = (props:any) => {
       });     
     }
 
-    const pastOrdersHandler = () =>{
-console.log("navigating to reciepts & ratings"); props.navigation.navigate('Receipt')
+    const pastOrdersHandler = (item:any) =>{
+      console.log("navigating to reciepts & ratings"); 
+      props.navigation.navigate('Receipt', {
+        screen: 'Receipts',
+        params: {'index' : item['orderId'], 'order' : item}
+      });
     }
 
-    const renderOrders = currentOrders?.map((item:any,i:number) =>
+    const renderCurrentOrders = pastOrders?.map((item:any,i:number) =>
       (
         <View key={i} style={styles.bubble}>
         <TouchableOpacity   onPress={()=>{ 
@@ -142,6 +144,39 @@ console.log("navigating to reciepts & ratings"); props.navigation.navigate('Rece
       )
     );
 
+    const renderPastOrders = pastOrders?.map((item:any,i:number) =>
+      (
+        <View key={i} style={styles.bubble}> 
+          <TouchableOpacity onPress={()=>{ pastOrdersHandler(item) }}  >
+                <View style={{flexDirection: 'row'}}>
+
+                  <View  style={{flex:1, borderWidth:.25, borderRadius:20,alignItems: 'center', justifyContent: 'center'}}>
+                    <Image style={{ flex:1, 
+                                    height: 60, 
+                                    width: "100%",     
+                                    borderWidth:.25,  
+                                    borderTopLeftRadius:20,  
+                                    borderBottomLeftRadius: 20}} source={require("../assets/FavoriteVendor10.jpeg")} />
+                  </View>
+
+                  <View style={styles.pastDetailContainer}>
+                    <View style={styles.orderDetails}>
+                      <Text style={styles.innerText} >Order# {item.orderId}</Text>
+                      <Text style={styles.innerText} >{item.address.street}</Text>
+                    </View>
+
+                    <View style={styles.price}>
+                      <Text style={styles.innerText} >11/4/2021</Text>
+                      <Text style={styles.innerText} >{item.total}</Text>            
+                    </View>
+                  </View>
+
+                </View>  
+          </TouchableOpacity>  
+      </View>
+      )
+    );
+
     
     return (
         <View>
@@ -151,14 +186,17 @@ console.log("navigating to reciepts & ratings"); props.navigation.navigate('Rece
             <ScrollView>         
             <View>
             <Text style={styles.headerText}>Current Orders</Text>
-          {currentOrders?.length > 0 ? renderOrders : <View>
+          {currentOrders?.length > 0 ? renderCurrentOrders : <View>
             <Text>No orders</Text>
             </View>}
             </View>
 
             <View>
             <Text style={styles.headerText}>Past Orders</Text>
-            <View style={styles.bubble}>
+            {pastOrders?.length > 0 ? renderPastOrders : <View>
+            <Text>No Past orders</Text>
+            </View>}
+            {/* <View style={styles.bubble}>
               <TouchableOpacity onPress={()=>{ pastOrdersHandler() }}  >
                 <View style={{flexDirection: 'row'}}>
 
@@ -220,7 +258,7 @@ console.log("navigating to reciepts & ratings"); props.navigation.navigate('Rece
               </TouchableOpacity>
 
             
-            </View>
+            </View> */}
             </View>
 
            

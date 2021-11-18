@@ -7,22 +7,27 @@ const user = auth.currentUser
 
 export const getOrderDetails = async (orderID, currentUser = user) => {
 
+    console.log("hi")
+    console.log(user)
+
     if (!user || !orderID) {
         console.error("User Not Logged In")
         return
     }
-    // check variable contents
-    // console.log("User: ", currentUser)
-    let result = true;
-    //
-    // create user doc in users collection with same uid
-    const userData = await firestore.doc(`users/${currentUser.uid}`).get()
+    // // check variable contents
+    // // console.log("User: ", currentUser)
+    // let result = true;
 
-    let orderData = await userData.data()
+    
+    // //
+    // // create user doc in users collection with same uid
+    const userDocument = await firestore.doc(`users/${currentUser.uid}`).get()
 
-    // console.log(orderData.currentOrders[0].orderId)
+    let userData = await userDocument.data()
 
-    return orderData.currentOrders[0]
+    console.log( userData.pastOrder[0].orderStatus)
+
+    // return orderData
 
 }
 

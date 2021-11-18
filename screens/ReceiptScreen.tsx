@@ -10,15 +10,22 @@ const ReceiptScreen = (props:any) => {
   const isFocused = useIsFocused();
 
   const [data, setData] = React.useState({
-    orderID: "",
-    street: "",
-    cartItems: [],
-    total: "",
-    
+    orderID: props.route.params.index,
+    address: [], // FIXME: address should be object of street, city, state, zip code
+    street: props.route.params.order.address.street,
+    cartItems: props.route.params.order.cartItems,
+    total: props.route.params.order.total,
+    price : [] //FIXME: should be object that holds taxes, total, fees etc
   })
 
+ 
+
   const getOrderData = async () => {
-     const orderData = CartService.getOrderDetails(1)
+  
+    //  CartService.getOrderDetails(1)
+    console.log(props.route.params)
+    console.log(props.route.params.order.cartItems)
+  
   }
 
   React.useEffect(()=> {
@@ -26,12 +33,39 @@ const ReceiptScreen = (props:any) => {
 
   },[isFocused])
 
-    const getOrderID = async () => {
-      return CartService.getOrderDetails(1)
-        .then((x) => {
-          return x
-        })
-    }
+
+    const renderItems = data['cartItems']?.map((item:any,i:number) => (
+        <View key={i} style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+            <Text style={styles.innerText} >{item.name}: </Text>
+            <Text style={styles.innerText} >${item.price} </Text>
+            <TouchableOpacity   onPress={()=>{ console.log("navigating to Rate Item screen"); props.navigation.navigate('RateItem')}}>
+
+              <Text style={styles.innerText} > ✰✰✰✰✰ </Text>
+                        
+            </TouchableOpacity>
+              <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+       </View>  
+      )
+    )
+
+    const renderAddress = data['address']?.map((item:any,i:number) => (
+      <View key={i} style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+          <Text style={styles.innerText} >{item.street}: </Text>
+          <Text style={styles.innerText} >{item.city}, {item.state} </Text>
+          <Text style={styles.innerText} >{item.zip}</Text>
+     </View>  
+      )
+    )
+
+    const renderPrice = data['price']?.map((item:any,i:number) => (
+      <View key={i} style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+          <Text style={styles.innerText} >Fees: {item.fees} </Text>
+          <Text style={styles.innerText} >Taxes: {item.taxes}</Text>
+          <Text style={styles.innerText} >Tip: {item.tip}</Text>
+          <Text style={styles.innerText} >Total: {item.total}</Text>
+     </View>  
+      )
+    )
 
     return (
         <View>
@@ -40,7 +74,7 @@ const ReceiptScreen = (props:any) => {
         <View style={{margin:15}}>
             <ScrollView>         
             <View>
-                <Text style={styles.headerText}>Order #0011</Text>
+                <Text style={styles.headerText}>Order #{data['orderID']}</Text>
                 <View style={styles.bubble}>
                   <View style={{flexDirection: 'column', alignItems: 'left'}}>
                     <Text style={styles.innerText} >1 Pace Plaza</Text>
@@ -49,12 +83,17 @@ const ReceiptScreen = (props:any) => {
                   </View>
                 </View>
                 <View style={styles.bubble}>
-                    <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+
+                {data['cartItems']?.length > 0 ? renderItems : <View>
+                  <Text>No Items orders</Text>
+            </View>}
+
+                    {/* <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
                       <Text style={styles.innerText} >Sweet Potato: </Text>
                       <Text style={styles.innerText} >$3.99 </Text>
                       <TouchableOpacity   onPress={()=>{ console.log("navigating to Rate Item screen"); props.navigation.navigate('RateItem')}}>
 
-                        <Text style={styles.innerText} > ***** </Text>
+                        <Text style={styles.innerText} > ✰✰✰✰✰ </Text>
                                   
                       </TouchableOpacity>
                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
@@ -70,11 +109,11 @@ const ReceiptScreen = (props:any) => {
                         
                         }}>
 
-                        <Text style={styles.innerText} > ***** </Text>
+                        <Text style={styles.innerText} > ✰✰✰✰✰ </Text>
                                   
                       </TouchableOpacity>
                         <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
-                    </View> 
+                    </View>  */}
             
                 </View>
             </View>
