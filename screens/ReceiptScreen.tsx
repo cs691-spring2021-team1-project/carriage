@@ -45,7 +45,7 @@ const ReceiptScreen = (props:any) => {
 </View> 
 <View style={styles.itemTotals}>
 <Text style={styles.innerText} >Total: </Text>
-<Text style={styles.innerText} >8. </Text>
+<Text style={styles.innerText} >8.63 </Text>
 
 </View> 
             
