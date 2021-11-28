@@ -22,6 +22,13 @@ const SettingsScreen = (props:any) => {
                 </View>  
               </TouchableOpacity>
 
+              <TouchableOpacity   onPress={()=>{ console.log("navigating to update profile screen"); props.navigation.navigate('AccountStatus')}}>
+                <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
+                <Text style={styles.innerText} >Account Membership Status</Text>
+                <Image style={{marginHorizontal:5}} source={require('../assets/SeeMoreButton.png')} />
+                </View>  
+              </TouchableOpacity>
+
               <TouchableOpacity onPress={()=>{ console.log("navigating to update payment info screen"); props.navigation.navigate('PaymentInfo')}} >
                 <View style={{flexDirection: 'row', height: 48, alignItems: 'center'}}>
                 <Text style={styles.innerText} >Payment</Text>

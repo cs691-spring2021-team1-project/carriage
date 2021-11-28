@@ -76,7 +76,7 @@ const ReceiptScreen = (props:any) => {
             <View>
                 <Text style={styles.headerText}>Order #{data['orderID']}</Text>
                 <View style={styles.bubble}>
-                  <View style={{flexDirection: 'column', alignItems: 'left'}}>
+                  <View style={{flexDirection: 'column'}}>
                     <Text style={styles.innerText} >1 Pace Plaza</Text>
                     <Text style={styles.innerText} >New York, NY</Text>
                     <Text style={styles.innerText} >10038</Text>
@@ -118,7 +118,7 @@ const ReceiptScreen = (props:any) => {
                 </View>
             </View>
             <View style={styles.bubble}>
-                  <View style={{flexDirection: 'column', alignItems: 'left'}}>
+                  <View style={{flexDirection: 'column'}}>
                     <Text style={styles.innerText} >Fees and Taxes: $1.99</Text>
                     <Text style={styles.innerText} >Delivery Fee: $0.99</Text>
                     <Text style={styles.innerText} >Tip: $0.00</Text>

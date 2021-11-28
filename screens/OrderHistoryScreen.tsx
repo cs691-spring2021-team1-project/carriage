@@ -117,7 +117,7 @@ const OrderHistoryScreen = (props:any) => {
         <View key={i} style={styles.bubble}>
         <TouchableOpacity   onPress={()=>{ 
          // pass order data
-          currentOrdersHandler(item)
+          pastOrdersHandler(item)
           }}>
           <View style={{flexDirection: 'column'}}>
             <View style={{flex:1, borderWidth:.25, borderRadius:20,alignItems: 'center', justifyContent: 'center'}} >
