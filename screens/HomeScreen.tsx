@@ -10,7 +10,8 @@ export default function HomeScreen({navigation}:any) {
         <View style={{flex:1}}>
           {/*how we fixed the scroll cap issue ^^^ */}
          <View style={{height: 70, backgroundColor: "#32965D", flexDirection: 'row'}}>
-         <TouchableOpacity style={{marginHorizontal:10}} >
+         <TouchableOpacity style={{marginHorizontal:10}}  onPress={()=>{ console.log("adding favorite"); navigation.navigate("AddStoreToFavorites")}}>
+             
              <Image source={require('../assets/FavoriteVendorButton.png')}
               style={{width: 50, height: 50, borderRadius: 100}}  />
              </TouchableOpacity>

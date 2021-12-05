@@ -18,7 +18,7 @@ const AccountStatusScreen = (props:any) => {
 
 
         
-             <Text style={styles.innerText}>Membership Status: Basic</Text>
+             <Text style={styles.innerText}>Membership Status: Premium</Text>
              
 
              <TouchableOpacity onPress={()=> console.log('upgrade/downgrade')}>
@@ -34,7 +34,7 @@ const AccountStatusScreen = (props:any) => {
             borderWidth: 1, 
             paddingHorizontal: 10
         }]}>
-            <Text style={[styles.btnText, {color:'black'}]}>Upgrade</Text>
+            <Text style={[styles.btnText, {color:'black'}]}>Downgrade</Text>
 
         </LinearGradient>
 
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     
   },
   button:{
-    width: 100,
+    width: 150,
   },
   gradient:{
     alignItems:'center',

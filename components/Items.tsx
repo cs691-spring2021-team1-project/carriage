@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom';
-import { StyleSheet, Text, View , TouchableOpacity, Image} from 'react-native'
+import { StyleSheet, Text, View , TouchableOpacity, Image, ImageBackground} from 'react-native'
 import Images from '../img/index';
-
+import { Ionicons as Icon } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const Items = ({items, onPress}:any) => {
@@ -26,7 +26,16 @@ const Items = ({items, onPress}:any) => {
   return (
 
     <View key={i} style={[styles.item, {margin: 20}]}>
-    <Image style={{width: 300, height: 150, borderTopLeftRadius: 20, borderTopRightRadius:20}} source={imgSrc}/>
+   <View>
+
+   <Icon style={{alignSelf: 'flex-end', padding: 10}} 
+   //name="heart" 
+   name="heart-outline"
+   color="#ff0000" size={30}></Icon>
+   <ImageBackground style={{width: 300, height: 150, borderTopLeftRadius: 20, borderTopRightRadius:20}} source={imgSrc}/>
+  
+   </View>
+    
     <Text style={styles.text}>{item['name']} </Text>
         <Text style={styles.text}>{item['price']}</Text>
         <TouchableOpacity key={i} onPress={()=> { onPress(item)}}>

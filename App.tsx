@@ -33,6 +33,7 @@ import PaymentConfirmationScreen from './screens/PaymentConfirmationScreen';
 
 import PaymentSelectScreenStack from './stacks/PaymentSelectScreenStack';
 import AccountStatusScreenScreenStack from './stacks/AccountStatusScreenStack';
+import AddStoreToFavoritesScreenStack from './stacks/AddStoreToFavoritesScreenStack';
 
 const Drawer = createDrawerNavigator();
  
@@ -267,6 +268,8 @@ const authContext = React.useMemo(()=>({
         <Drawer.Screen name="PaymentConfirmation" component={PaymentConfirmationScreen}/>
         <Drawer.Screen name="PaymentSelect" component={PaymentSelectScreenStack}/>
         <Drawer.Screen name="AccountStatus" component={AccountStatusScreenScreenStack}/>
+        <Drawer.Screen name="AddStoreToFavorites" component={AddStoreToFavoritesScreenStack}/>
+   
       </Drawer.Navigator>
  )
  }
