@@ -97,5 +97,20 @@ const deleteUser = async (user) => {
         })
 }
 
+const changeMembership = async (user, new_status) => {
+    return firestore.doc(`users/${user.uid}`).update({
+        status : new_status,
+        updatedAt: new Date()
+    })
+    .then(() => {
+        console.log("User Membership Changed")
+        return true;
+    })
+    .catch((error) => {
+        console.log("Cannot Change User Membership: ", error)
+        return false;
+    })
+}
 
-export {updateUserLastName, updateUserFirstName, deleteUser, updateUserAuthDisplayName}
+
+export {updateUserLastName, updateUserFirstName, deleteUser, updateUserAuthDisplayName, changeMembership}
