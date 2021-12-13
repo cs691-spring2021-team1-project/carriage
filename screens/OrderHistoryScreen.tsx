@@ -57,6 +57,7 @@ const OrderHistoryScreen = (props:any) => {
 */
       getCurrentOrdersData(user, setCurrentOrders)
       getPastOrdersData(user, setPastOrders)
+      console.log(pastOrders)
     // getPastOrdersData(user)
 
 

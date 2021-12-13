@@ -3,8 +3,57 @@ import { StyleSheet, Text, View,Button, ScrollView , Image, ImageBackground} fro
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Swiper   from "react-native-swiper";
 import Listing from '../components/Listing'
+import {VendorService } from '../src/services';
+import { UserService } from '../src/services';
+import { auth } from '../firebase'; 
 
 export default function HomeScreen({navigation}:any) {
+
+    const [vendors, setVendors]  = React.useState([])
+    const [favVendors, setFavVendors]  = React.useState([])
+
+    React.useEffect(()=>{
+        let user = auth.currentUser
+        getUserFavVendors(user)
+        // getVendors(vendorID)
+    },[])
+
+    // const getVendors = async(vendorID:any) => {
+    //     try {
+    //         let vendors = await VendorService.getVendorsByID(vendorID)
+    //         vendors.forEach(doc => {
+    //             console.log(doc.id, '=>', doc.data());
+    //           });
+    //     } catch(error) {
+    //         console.error(error)
+    //     }
+    // }
+
+    const getUserFavVendors = async(user:any) => {
+            let userFavVendors = await VendorService.getUserFavVendors(user)
+            
+            setFavVendors(userFavVendors)
+            console.log("Fav Vendors After")
+            console.log(favVendors)
+    }
+    // TODO: CREATE VENDOR PAGE
+    // TODO: CREATE GETVENDORITEM FUNCTION
+    // TODO CREATE FAVORITEVENDOR FUNCTION
+    // TODO: CREATE FAVORITEITEM FUNCTION
+    const FavVendorHandler = (venderInfo: any) => {
+        // navigate to vendor page
+    }
+
+    const renderFavVendors = favVendors?.map((info:any, i:number)=> (
+        <View key={i}> 
+            <TouchableOpacity style={{marginHorizontal:10}}>
+                <Image source={require('../assets/FavoriteVendor1.png')}
+                style={{width: 50, height: 50, borderRadius: 100}}  />
+            </TouchableOpacity>
+        </View>
+    ))
+
+    
     return (
 
         <View style={{flex:1}}>
@@ -22,7 +71,7 @@ export default function HomeScreen({navigation}:any) {
               
          >
            
-             <TouchableOpacity style={{marginHorizontal:10}}>
+             {/* <TouchableOpacity style={{marginHorizontal:10}}>
              <Image source={require('../assets/FavoriteVendor1.png')}
               style={{width: 50, height: 50, borderRadius: 100}}  />
              </TouchableOpacity>
@@ -41,7 +90,8 @@ export default function HomeScreen({navigation}:any) {
              <TouchableOpacity style={{marginHorizontal:10}}>
              <Image source={require('../assets/FavoriteVendor1.png')}
               style={{width: 50, height: 50, borderRadius: 100}}  />
-             </TouchableOpacity>
+             </TouchableOpacity> */}
+             {favVendors?.length > 0 ? renderFavVendors: <View></View>}
          </ScrollView>
         </View>
       

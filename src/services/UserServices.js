@@ -97,5 +97,25 @@ const deleteUser = async (user) => {
         })
 }
 
+const getUserData = async (user) => {
+    return firestore.doc(`users/${user.uid}`).get()
+        .then((userData) => {
+            console.log("User Vendor :" + userData.data())
+            return userData.data()
+        })
+        .catch((error) => {
+            console.log("Cannot get User Data: ", error)
+            return null;
+        })
+     }
 
-export {updateUserLastName, updateUserFirstName, deleteUser, updateUserAuthDisplayName}
+
+const getUserFavoriteVendors = async (user) => {
+    let userData = await getUserData(user)
+    if (!userData) {
+        return []
+    }
+    return userData.favoriteVendor
+}
+
+export {updateUserLastName, updateUserFirstName, deleteUser, updateUserAuthDisplayName, getUserFavoriteVendors}
