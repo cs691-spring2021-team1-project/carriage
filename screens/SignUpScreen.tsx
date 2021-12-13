@@ -21,6 +21,7 @@ const SignUpScreen = ({navigation}:any) => {
          lastName: '',
          email: '',
          password:'',
+         status:'basic',
          secureTextEntry: true,
          check_circle: false,
          validFirst: true,
